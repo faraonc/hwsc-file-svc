@@ -1,0 +1,24 @@
+syntax="proto3";
+
+package hwscFileSvc;
+
+option go_package="hwscFileSvcPb";
+
+service FileService{
+    rpc GetStatus(FileRequest) returns (FileResponse) {}
+}
+
+enum State {
+    AVAILABLE = 0;
+    UNAVAILABLE = 1;
+    SUCCESS = 2;
+    FAIL = 3;
+}
+
+message FileRequest{
+    string message = 1;
+}
+
+message FileResponse{
+    State state = 1;
+}
