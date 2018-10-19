@@ -4,7 +4,7 @@ from concurrent import futures
 import grpc
 import time
 
-import hwsc_file_svc_pb2, hwsc_file_svc_pb2_grpc
+import dep.proto.hwsc_file_svc_pb2_grpc as hwsc_file_svc_pb2_grpc
 
 class FileService(hwsc_file_svc_pb2_grpc.FileServiceServicer):
     def __init__(self):
