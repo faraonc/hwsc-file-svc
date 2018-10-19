@@ -8,14 +8,11 @@ This provides file management service which includes the following:
   - Uploading
   - Deleting
 ## Prerequisites
-- Installed Python 3.6
+- Installed Python 3.7
 - Installed Webstorm
 
 ## How to install Dependencies
- - step 1
-  - step 2
-  -
-
+ TO-DO
 
 # How to run service
 - After having a contract with API
@@ -39,5 +36,6 @@ The path for uploading a file as following:
 - The meta-data service returns update to the gateway service.
 - The file has been successfully uploaded
 ### 2. Download
-
+TO-DO
 ### 3. Delete
+TO-DO
