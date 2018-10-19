@@ -19,14 +19,5 @@ This provides file management service which includes the following:
 
 
 # How to run service
-### 1. Download
-  - GET
- /api/file-management/file?loc={}
-[www.google.com]
-  - POST
- [/api/file-management/file?name={}&type={}]
-
-  - DELETE
-/api/file-management/file?loc={}
 
 
