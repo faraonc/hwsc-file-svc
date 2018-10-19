@@ -1,21 +1,31 @@
 # hwsc-file-svc
-# TO-DO How to Run
+This is one of the microservices in the Humpback Whale Social Call project, which allows user to manage their files.
 
-# Purpose
-This provides service for file management that includes the following:
-- Downloading
-- Uploading
-- Deleting
+### Purpose
 
-# Specifications
-## Download
-### GET
-### /api/file-management/file?loc={}
+This provides file management service which includes the following:
+  - Downloading
+  - Uploading
+  - Deleting
+## Prerequisites
+- Installed Pycharm with Python 3.6
+- Installed Webstorm
 
-## Upload
-### POST
-### /api/file-management/file?name={}&type={}
+## How to install Dependencies
+ - step 1
+  - step 2
+  -
 
-## Delete
-### DELETE
-### /api/file-management/file?loc={}
+
+# How to run service
+### 1. Download
+  - GET
+ /api/file-management/file?loc={}
+[www.google.com]
+  - POST
+ [/api/file-management/file?name={}&type={}]
+
+  - DELETE
+/api/file-management/file?loc={}
+
+
