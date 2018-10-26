@@ -6,7 +6,7 @@ import time
 
 import hwsc_file_transaction_svc_pb2, hwsc_file_transaction_svc_pb2_grpc
 
-SEGMENT_SIZE = 1024 * 1024  //1MB
+SEGMENT_SIZE = 1024 * 1024
 
 def download_segment(reqFile):
     with open(reqFile, 'readFile')as f:
