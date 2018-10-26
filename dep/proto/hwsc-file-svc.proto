@@ -1,13 +1,16 @@
 syntax="proto3";
 
-package hwscFileSvc;
+package hwscFileTransactionSvc;
 
-option go_package="hwscFileSvcPb";
+option go_package="hwscFileTransactionSvcPb";
 
-service FileService{
-    rpc GetStatus(FileRequest) returns (FileResponse) {}
+// Service: define the methods that gRPC server can expose to the client
+service FileTransactionService{
+    rpc GetStatus(FileTransactionRequest) returns (FileTransactionResponse) {}
+    rpc upload(stream Segment)returns(Reply){}
+    rpc download(Request)returns(stream Data){}
+
 }
-
 enum State {
     AVAILABLE = 0;
     UNAVAILABLE = 1;
@@ -15,10 +18,24 @@ enum State {
     FAIL = 3;
 }
 
-message FileRequest{
+message FileTransactionRequest{
     string message = 1;
 }
 
-message FileResponse{
+message FileTransactionResponse{
     State state = 1;
 }
+
+message Segment{
+    bytes buffer =1;
+}
+
+message Reply{
+    int32 length = 1;
+}
+
+message Request{
+    string name =1;
+}
+
+
