@@ -1,41 +1,27 @@
-syntax="proto3";
+syntax = "proto3";
 
 package hwscFileTransactionSvc;
 
-option go_package="hwscFileTransactionSvcPb";
-
 // Service: define the methods that gRPC server can expose to the client
 service FileTransactionService{
-    rpc GetStatus(FileTransactionRequest) returns (FileTransactionResponse) {}
-    rpc upload(stream Segment)returns(Reply){}
-    rpc download(Request)returns(stream Data){}
-
-}
-enum State {
-    AVAILABLE = 0;
-    UNAVAILABLE = 1;
-    SUCCESS = 2;
-    FAIL = 3;
+    rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
+    rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
+    rpc DownloadFile (FileTransactionRequest) returns (stream Chunk){}
 }
 
 message FileTransactionRequest{
     string message = 1;
+    string name = 2;
+    string url = 3;
 }
 
 message FileTransactionResponse{
-    State state = 1;
+    oneof status {uint32 code = 1;}
+    string message = 2;
+    string url = 3;
+    int64 length = 4;
 }
 
-message Segment{
-    bytes buffer =1;
+message Chunk{
+    bytes buffer = 1;
 }
-
-message Reply{
-    int32 length = 1;
-}
-
-message Request{
-    string name =1;
-}
-
-
