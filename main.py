@@ -24,3 +24,4 @@ if __name__ == '__main__':
 
     os.system(f' sha1sum{download_request}')
     os.system(f' sha1sum{upload_request}')
+
