@@ -6,19 +6,19 @@ import time
 
 import hwsc_file_transaction_svc_pb2, hwsc_file_transaction_svc_pb2_grpc
 
-SEGMENT_SIZE = 1024 * 1024
+CHUNK_SIZE = 1024 * 1024
 
-def download_segment(reqFile):
+def download_chunk(reqFile):
     with open(reqFile, 'readFile')as f:
         while True:
-            segment = f.read(SEGMENT_SIZE);
-            if len(segment) == 0:
+            chunk = f.read(CHUNK_SIZE);
+            if len(chunk) == 0:
                 return
-            yield hwsc_file_transaction_svc_pb2.Segment(buffer=segment)
+            yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
 
-def upload_segment(segments, reqFile):
+def upload_chunk(chunk, reqFile):
     with open(reqFile,'writeFile') as f:
-        for line in segments:
+        for line in chunk:
             f.write(line.buffer)
 
 class FileTransactionClient:
@@ -27,13 +27,13 @@ class FileTransactionClient:
         self.stub = hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceStub(channel)
 
     def upload(self,target_file):
-        segment = download_segment(target_file)
-        response = self.stub.upload(segment)
+        chunk = download_chunk(target_file)
+        response = self.stub.UploadFile(chunk)
         assert response.length == os.path.getsize(target_file)
 
      def download(self,target_file,response_file):
-        response = self.stub.download(hwsc_file_transaction_svc_pb2.Request(name=target_file))
-        upload_segment(response,response_file)
+        response = self.stub.DownloadFile(hwsc_file_transaction_svc_pb2.Request(name=target_file))
+        upload_chunk(response,response_file)
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
     def __init__(self):
@@ -48,10 +48,10 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
             def download(self,downloadRequest,context):
                 if downloadRequest.name:
-                    return download_segment(self.tmp_file_name)
+                    return download_chunk(self.tmp_file_name)
 
             def upload(self,uploadRequest,context):
-                upload_segment(uploadRequest,sef.tmp_file_name)
+                upload_chunk(uploadRequest,sef.tmp_file_name)
                     return hwsc_file_transaction_svc_pb2.Reply(length=os.path.getsize(self.tmp_file_name))
 
         self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
@@ -71,3 +71,5 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                 time.sleep(60*60*24)
         except KeyboardInterrupt:
             self.server.stop(0)
+
+
