@@ -6,6 +6,8 @@ option go_package="hwscFileSvcPb";
 
 service FileService{
     rpc GetStatus(FileRequest) returns (FileResponse) {}
+    rpc upload(stream File) returns (Reply) {}
+    rpc download(Request) returns (stream File) {}
 }
 
 enum State {
@@ -21,4 +23,16 @@ message FileRequest{
 
 message FileResponse{
     State state = 1;
+}
+
+message File {
+    bytes buffer = 1;
+}
+
+message Request {
+    string name = 1;
+}
+
+message Reply {
+    int32 length = 1;
 }
