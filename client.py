@@ -1,5 +1,5 @@
 import os
-import service.hwsc_file_transaction_svc as hwsc_file_transaction_svc
+import hwsc_file_transaction_svc
 
 if __name__ == '__main__':
     client = hwsc_file_transaction_svc.FileTransactionClient('localhost:50051')
