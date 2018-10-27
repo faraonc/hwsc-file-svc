@@ -4,7 +4,8 @@ from concurrent import futures
 import grpc
 import time
 
-import hwsc_file_transaction_svc_pb2, hwsc_file_transaction_svc_pb2_grpc
+import hwsc_file_transaction_svc_pb2 as hwsc_file_transaction_svc_pb2
+import hwsc_file_transaction_svc_pb2_grpc as hwsc_file_transaction_svc_pb2_grpc
 
 CHUNK_SIZE = 1024 * 1024
 
@@ -22,7 +23,7 @@ def upload_chunk(chunk, reqFile):
             f.write(line.buffer)
 
 class FileTransactionClient:
-    def__init__(self,address):
+    def __init__(self,address):
         channel = grpc.insecure_channel(address)
         self.stub = hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceStub(channel)
 
@@ -31,7 +32,7 @@ class FileTransactionClient:
         response = self.stub.UploadFile(chunk)
         assert response.length == os.path.getsize(target_file)
 
-     def download(self,target_file,response_file):
+    def download(self,target_file,response_file):
         response = self.stub.DownloadFile(hwsc_file_transaction_svc_pb2.Request(name=target_file))
         upload_chunk(response,response_file)
 
@@ -40,7 +41,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
         class Servicer(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
             def __init__(self):
-                // pass
+                # pass
                 self.tmp_file_name = ''
 
             def GetStatus(self, request, context):
@@ -51,11 +52,11 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                     return download_chunk(self.tmp_file_name)
 
             def upload(self,uploadRequest,context):
-                upload_chunk(uploadRequest,sef.tmp_file_name)
-                    return hwsc_file_transaction_svc_pb2.Reply(length=os.path.getsize(self.tmp_file_name))
+                upload_chunk(uploadRequest,self.tmp_file_name)
+                return hwsc_file_transaction_svc_pb2.Reply(length=os.path.getsize(self.tmp_file_name))
 
-        self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
-        hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)
+            self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
+            hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)
 
     def start(self, port):
         print("1")
@@ -71,5 +72,3 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                 time.sleep(60*60*24)
         except KeyboardInterrupt:
             self.server.stop(0)
-
-
