@@ -4,8 +4,8 @@ from concurrent import futures
 import grpc
 import time
 
-import hwsc_file_transaction_svc_pb2 as hwsc_file_transaction_svc_pb2
-import hwsc_file_transaction_svc_pb2_grpc as hwsc_file_transaction_svc_pb2_grpc
+import hwsc_file_transaction_svc_pb2
+import hwsc_file_transaction_svc_pb2_grpc
 
 CHUNK_SIZE = 1024 * 1024
 
@@ -56,7 +56,8 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                 return hwsc_file_transaction_svc_pb2.Reply(length=os.path.getsize(self.tmp_file_name))
 
             self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
-            hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)
+
+        hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)
 
     def start(self, port):
         print("1")
