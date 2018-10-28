@@ -9,4 +9,3 @@
 
 pipenv install grpcio-tools
 pipenv install googleapis-common-protos
-pipenv install requests

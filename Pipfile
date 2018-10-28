@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 grpcio-tools = "*"
 googleapis-common-protos = "*"
-requests = "*"
 
 [dev-packages]
 
