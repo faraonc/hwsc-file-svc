@@ -35,6 +35,7 @@ This provides file management service which includes the following:
 - In created shell, you run the bash script by typing [./generate.sh]
 - This will create Pipfile and Pipfile.lock files that are used for dependency management
 - Pipfile: track which dependencies your project needs in case you need to reinstall them
+- Pipfile.lock: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
 ## How to manage dependency with pipenv (project already contains generated Pipfile and Pipfile.lock)
 - Type [pipenv install] on the command
