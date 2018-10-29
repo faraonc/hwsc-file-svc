@@ -1,55 +1,55 @@
-# HWSC-File-Transaction-SVC
-This is one of the microservices in the Humpback Whale Social Call project, which allows user to manage their files. 
+# hwsc-file-transaction-svc
+This manages HWSC user file transactions
+
 ### Purpose
-
 This provides file management service which includes the following:
-  - Downloading
-  - Uploading
-  - Deleting
-## Prerequisites
-- Python 3.7
-- Webstorm
+- DownloadFile()
+- UploadFile()
+- DeleteFile()
 
-## How to install Dependencies
- - TO-DO
+## Prerequisites
+- Python 3.7 or greater
+- pip
+- pipenv
+- Pycharm or VSCode
+
+## Check your python version
+- Open your terminal and type `$ python --version`
+
+## How to install Python3.7 with Homebrew
+- On your terminal, type 
+```
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+- On your terminal, type `$ brew install python` to install python 
+- Type `$ which python3` to figure out the path. Example: `/usr/local/Cellar/python/3.7.0/bin`
+- Type `$ vim ~/.bash_profile` to open the `.bash_profile` file
+- Insert `export PATH="/usr/local/Cellar/python/3.7.0/bin/:$PATH"` in the `.bash_profile` file
+- Type `$ source ~/.bash_profile` to adjust the changes
+- Type `$ python3 --version` to check the version is 3.7
+- Call python3.7 by `$ python3`
+
+## How to install pipenv with Homebrew
+- If you installed python3.7 with Homebrew, you would have pip installed already
+- On the terminal, type `$ pip install --user pipenv` 
+
+## How to manage dependency with pipenv (to create Pipfile and Pipfile.lock)
+- Change to your project directory by typing `$ cd [project name]` 
+- To spawn a shell in a virtual environment, type `$ pipenv shell`
+- In the shell, run the bash script by typing `$ ./generate.sh`. This will create Pipfile and Pipfile.lock files that are used for dependency management
+- `Pipfile`: track which dependencies your project needs in case you need to reinstall them
+- `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
+
+## Pull the proto file and compiled pb from the hwsc-api-blocks
+- TODO
+
+# Before running service
+- `$ pip install pytest --dev` (Unit test for the application)
+- `$ pipenv install -dev` (Put dependency in `dev-packages` in `Pipfile`)
+- `$ pipenv install -env` (Update `Pipfile.lock`)
+- `$ pipenv lock` (Lock the environment to ensure the same dependency for production)
 
 # How to run service
-- Create a contract with API
-- Develop a new service for hwsc-file-transaction-svc (e.g., Download, Upload, Delete)
-- TO-DO
+- On the command, type `$ pipenv install --ignore-pipfile`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
+- Type `$ pipenv run python nameofthefile.py`. Example: `$ pipenv run python main.py`
 
-### 1. Upload
-The path for uploading a file as following:
-- User logins to the gateway service
-- The MongoDB checks user account and returns update to the gateway service
-- The uploaded request will be sent to the metadata-file service
-- The metadata-file service received connection
-- The uploaded request will be sent to the file service
-- The file service received connection
-- The file will be sent to the file service
-- The file service uploads the file to the Blob Storage
-- The Blob Storage returns an url link to the file service
-- The file service returns the url link to the gateway service
-- The gateway service requests the metadata-file service to create a file
-- The metadata-file service sends the file to MongoDB for storaging
-- The MongoDB returns update to the meta-data service
-- The meta-data service returns update to the gateway service.
-- The file has been successfully uploaded 
-### 2. Download
-The path for downloading a file as following:
-- User logins to the gateway service
-- The MongoDB checks user account and returns update to the gateway service
-- The downloaded request will be sent to the metadata-file service
-- The metadata-file service received connection
-- The downloaded request will be sent to the file service
-- The file service received connection
-- TO-DO
-### 3. Delete
-The path for deleting a file as following:
-- User logins to the gateway service
-- The MongoDB checks user account and returns update to the gateway service
-- The downloaded request will be sent to the metadata-file service
-- The metadata-file service received connection
-- The deleting request will be sent to the file service
-- The file service received connection
-- TO-DO
