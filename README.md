@@ -17,7 +17,10 @@ This provides file management service which includes the following:
 - Open your terminal and type `$ python --version`
 
 ## How to install Python3.7 with Homebrew
-- On your terminal, type `$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` 
+- On your terminal, type 
+```
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 - On your terminal, type `$ brew install python` to install python 
 - Type `$ which python3` to figure out the path. Example: `/usr/local/Cellar/python/3.7.0/bin`
 - Type `$ vim ~/.bash_profile` to open the `.bash_profile` file
