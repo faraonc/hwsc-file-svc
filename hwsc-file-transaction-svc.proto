@@ -6,13 +6,13 @@ package hwscFileTransactionSvc;
 service FileTransactionService{
     rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
     rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
-    rpc DownloadFile (FileTransactionRequest) returns (stream Chunk){}
+    rpc DownloadZipFile (FileTransactionRequest) returns (stream Chunk){}
 }
 
 message FileTransactionRequest{
     string message = 1;
     string name = 2;
-    string url = 3;
+    repeated string urls = 3;
 }
 
 message FileTransactionResponse{
