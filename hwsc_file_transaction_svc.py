@@ -18,42 +18,28 @@ def download_chunk(reqFile):
             yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
 
 def upload_chunk(chunk, reqFile):
-    with open(reqFile,'writeFile') as f:
+    with open(reqFile,'wb') as f:
         for line in chunk:
             f.write(line.buffer)
-
-class FileTransactionClient:
-    def __init__(self,address):
-        channel = grpc.insecure_channel(address)
-        self.stub = hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceStub(channel)
-
-    def upload(self,target_file):
-        chunk = download_chunk(target_file)
-        response = self.stub.UploadFile(chunk)
-        assert response.length == os.path.getsize(target_file)
-
-    def download(self,target_file,response_file):
-        response = self.stub.DownloadFile(hwsc_file_transaction_svc_pb2.Request(name=target_file))
-        upload_chunk(response,response_file)
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
     def __init__(self):
 
         class Servicer(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
             def __init__(self):
-                # pass
-                self.tmp_file_name = ''
+                pass
 
             def GetStatus(self, request, context):
                 print("Get Status")
 
-            def download(self,downloadRequest,context):
+            def DownloadZipFiles(self,downloadRequest,context):
                 if downloadRequest.name:
                     return download_chunk(self.tmp_file_name)
 
-            def upload(self,uploadRequest,context):
-                upload_chunk(uploadRequest,self.tmp_file_name)
-                return hwsc_file_transaction_svc_pb2.Reply(length=os.path.getsize(self.tmp_file_name))
+            def UploadFile(self, request_iterator, context):
+                print("[INFO] Requesting UploadFile service")
+                upload_chunk(request_iterator, 'dummy_img.jpg')
+                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='Hello', url='world', length=64)
 
             self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 

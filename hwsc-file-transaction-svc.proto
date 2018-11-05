@@ -6,7 +6,7 @@ package hwscFileTransactionSvc;
 service FileTransactionService{
     rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
     rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
-    rpc DownloadZipFile (FileTransactionRequest) returns (stream Chunk){}
+    rpc DownloadZipFiles (FileTransactionRequest) returns (stream Chunk){}
 }
 
 message FileTransactionRequest{
@@ -24,4 +24,5 @@ message FileTransactionResponse{
 
 message Chunk{
     bytes buffer = 1;
+    string name = 2;
 }

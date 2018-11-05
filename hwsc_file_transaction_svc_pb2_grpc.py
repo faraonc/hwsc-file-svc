@@ -24,8 +24,8 @@ class FileTransactionServiceStub(object):
         request_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
-    self.DownloadFile = channel.unary_stream(
-        '/hwscFileTransactionSvc.FileTransactionService/DownloadFile',
+    self.DownloadZipFiles = channel.unary_stream(
+        '/hwscFileTransactionSvc.FileTransactionService/DownloadZipFiles',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
         )
@@ -49,7 +49,7 @@ class FileTransactionServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def DownloadFile(self, request, context):
+  def DownloadZipFiles(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -69,8 +69,8 @@ def add_FileTransactionServiceServicer_to_server(servicer, server):
           request_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
-      'DownloadFile': grpc.unary_stream_rpc_method_handler(
-          servicer.DownloadFile,
+      'DownloadZipFiles': grpc.unary_stream_rpc_method_handler(
+          servicer.DownloadZipFiles,
           request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
       ),

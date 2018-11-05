@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hwscFileTransactionSvc',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x16hwscFileTransactionSvc\"D\n\x16\x46ileTransactionRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\"a\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06length\x18\x04 \x01(\x03\x42\x08\n\x06status\"\x17\n\x05\x43hunk\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x32\xcd\x02\n\x16\x46ileTransactionService\x12n\n\tGetStatus\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x12`\n\nUploadFile\x12\x1d.hwscFileTransactionSvc.Chunk\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00(\x01\x12\x61\n\x0c\x44ownloadFile\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a\x1d.hwscFileTransactionSvc.Chunk\"\x00\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x16hwscFileTransactionSvc\"E\n\x16\x46ileTransactionRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04urls\x18\x03 \x03(\t\"a\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\t\x12\x0e\n\x06length\x18\x04 \x01(\x03\x42\x08\n\x06status\"\x17\n\x05\x43hunk\x12\x0e\n\x06\x62uffer\x18\x01 \x01(\x0c\x32\xd1\x02\n\x16\x46ileTransactionService\x12n\n\tGetStatus\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x12`\n\nUploadFile\x12\x1d.hwscFileTransactionSvc.Chunk\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00(\x01\x12\x65\n\x10\x44ownloadZipFiles\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a\x1d.hwscFileTransactionSvc.Chunk\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -47,9 +47,9 @@ _FILETRANSACTIONREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='url', full_name='hwscFileTransactionSvc.FileTransactionRequest.url', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='urls', full_name='hwscFileTransactionSvc.FileTransactionRequest.urls', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -66,7 +66,7 @@ _FILETRANSACTIONREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=59,
-  serialized_end=127,
+  serialized_end=128,
 )
 
 
@@ -120,8 +120,8 @@ _FILETRANSACTIONRESPONSE = _descriptor.Descriptor(
       name='status', full_name='hwscFileTransactionSvc.FileTransactionResponse.status',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=129,
-  serialized_end=226,
+  serialized_start=130,
+  serialized_end=227,
 )
 
 
@@ -151,8 +151,8 @@ _CHUNK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=228,
-  serialized_end=251,
+  serialized_start=229,
+  serialized_end=252,
 )
 
 _FILETRANSACTIONRESPONSE.oneofs_by_name['status'].fields.append(
@@ -192,8 +192,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=254,
-  serialized_end=587,
+  serialized_start=255,
+  serialized_end=592,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetStatus',
@@ -214,8 +214,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='DownloadFile',
-    full_name='hwscFileTransactionSvc.FileTransactionService.DownloadFile',
+    name='DownloadZipFiles',
+    full_name='hwscFileTransactionSvc.FileTransactionService.DownloadZipFiles',
     index=2,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
