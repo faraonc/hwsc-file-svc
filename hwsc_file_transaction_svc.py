@@ -22,6 +22,11 @@ def upload_chunk(chunk, reqFile):
         for line in chunk:
             f.write(line.buffer)
 
+def save_chunks_to_file(chunks, filename):
+    with open(filename, 'wb') as f:
+        for chunk in chunks:
+            f.write(chunk.buffer);
+
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
     def __init__(self):
 
@@ -37,9 +42,12 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                     return download_chunk(self.tmp_file_name)
 
             def UploadFile(self, request_iterator, context):
-                print("[INFO] Requesting UploadFile service")
-                upload_chunk(request_iterator, 'dummy_img.jpg')
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='Hello', url='world', length=64)
+                save_chunks_to_file(request_iterator, self.tmp_file_name)
+                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(length=os.path.getsize(self.tmp_file_name))
+            # def UploadFile(self, request_iterator, context):
+            #     print("[INFO] Requesting UploadFile service")
+            #     upload_chunk(request_iterator, 'dummy_img.jpg')
+            #     return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='Hello', url='world', length=64)
 
             self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
