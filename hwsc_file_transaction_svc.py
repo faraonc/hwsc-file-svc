@@ -10,17 +10,17 @@ import hwsc_file_transaction_svc_pb2_grpc
 CHUNK_SIZE = 1024 * 1024
 
 def download_chunk(reqFile):
-    with open(reqFile, 'readFile')as f:
+    with open(reqFile, 'rb')as f:
         while True:
             chunk = f.read(CHUNK_SIZE);
             if len(chunk) == 0:
                 return
             yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
 
-def upload_chunk(chunk, reqFile):
-    with open(reqFile,'wb') as f:
-        for line in chunk:
-            f.write(line.buffer)
+def save_chunks_to_file(chunks, filename):
+    with open(filename,'wb') as f:
+        for chunk in chunks:
+            f.write(chunk.buffer)
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
     def __init__(self):
@@ -38,8 +38,13 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
             def UploadFile(self, request_iterator, context):
                 print("[INFO] Requesting UploadFile service")
-                upload_chunk(request_iterator, 'dummy_img.jpg')
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='Hello', url='world', length=64)
+                #save_chunks_to_file(request_iterator,'dummy_img.jpg')
+                save_chunks_to_file(request_iterator, context.fileName)
+                #return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='Hello', url='world', length=64)
+                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                    message=context.fileName + 'has been uploaded!',
+                    url='url: /res' + context.fileName,
+                    length=64)
 
             self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
