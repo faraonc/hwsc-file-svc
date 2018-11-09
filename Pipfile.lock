@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "83427246c5c88d2842def3f959ab0439fee54d6225b5d1f35401def17242e52e"
+            "sha256": "a728b4071e68d51ee91e75625c20cbcc526ad8487fdbc08bf219429926d80597"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,12 +16,20 @@
         ]
     },
     "default": {
-        "googleapis-common-protos": {
+        "filetype": {
             "hashes": [
-                "sha256:c075eddaa2628ab519e01b7d75b76e66c40eaa50fc52758d8225f84708950ef2"
+                "sha256:97b4ec0974b07cbddb3e74cf323d8688749807014055cc91cdbfef5442a94dc5",
+                "sha256:ef06220f3563ca6452c53470f0e624858c33c6344969cc3146e8d1b1c5989114"
             ],
             "index": "pypi",
-            "version": "==1.5.3"
+            "version": "==1.0.1"
+        },
+        "googleapis-common-protos": {
+            "hashes": [
+                "sha256:0946967c4c29b1339bb211949e1e17dbe0ae9ff8265fafa7bf4cf2164ef5a3b1"
+            ],
+            "index": "pypi",
+            "version": "==1.5.5"
         },
         "grpcio": {
             "hashes": [

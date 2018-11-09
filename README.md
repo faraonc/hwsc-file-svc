@@ -40,8 +40,11 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile`: track which dependencies your project needs in case you need to reinstall them
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
-## Pull the proto file and compiled pb from the hwsc-api-blocks
-- TODO
+## Pull the proto file and compiled pb from the hwsc-api-blocks with wget
+- Change to your project directory by typing `$ cd [project name]` 
+- To spawn a shell in a virtual environment, type `$ pipenv shell`
+- In the shell, run the bash script by typing `$ ./generate_dep.sh`. 
+  This would generate compiled proto files from hwsc-api-blocks.
 
 # Before running service
 - `$ pip install pytest --dev` (Unit test for the application)
