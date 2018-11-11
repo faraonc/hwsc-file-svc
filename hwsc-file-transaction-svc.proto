@@ -22,7 +22,17 @@ message FileTransactionResponse{
     int64 length = 4;
 }
 
+message Metadata{
+    repeated string image = 1;
+    repeated string audio = 2;
+    repeated string video = 3;
+    repeated string file = 4;
+}
+
 message Chunk{
-    bytes buffer = 1;
-    string name = 2;
+    oneof test_oneof{
+        bytes buffer = 1;
+        string fileName = 2;
+    }
+    Metadata meta = 3;
 }
