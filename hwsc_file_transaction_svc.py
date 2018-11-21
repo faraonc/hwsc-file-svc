@@ -32,32 +32,44 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             def __init__(self):
                 pass
 
-            def GetStatus(self, request, context):
+
+            def get_status(self, request, context):
                 print("Get Status")
 
-            def DownloadZipFiles(self, request_iterator, context):
+            def download_zip_files(self, request_iterator, context):
                 if request_iterator.name:
                     return download_chunk(self.tmp_file_name)
 
-            def UploadFile(self, request_iterator, context):
+          #  def UploadFile(self, request_iterator, context):
+           #     print("[INFO] Requesting UploadFile service")
+                # save_chunks_to_file(request_iterator, context.fileName)
+                # print(request_iterator.Chunk.fileName)
+            #    print(context.Chunk.fileName)
+             #   return hwsc_file_transaction_svc_pb2.FileTransactionResponse()
+                # if not request_iterator.buffer.is_valid or request_iterator.fileName.is_valid:
+                #     message = 'Upload Error!'
+                #     context.set_details(message)
+                #     context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                #     return hwsc_file_transaction_svc_pb2.FileTransactionResponse()
+                #
+                # status = hwsc_file_transaction_svc_pb2.FileTransactionResponse()
+                # status.code = grpc.StatusCode.OK
+                # assert status.HasField("code")
+                #
+                # return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                #     message='OK',
+                #     status=status.code,
+                #     url='url: /res' + context.fileName,
+                #     length=64)
+
+            def upload_file(self, request_iterator, context):
                 print("[INFO] Requesting UploadFile service")
-                save_chunks_to_file(request_iterator, request_iterator.fileName)
 
-                if not request_iterator.buffer.is_valid or request_iterator.fileName.is_valid:
-                    message = 'Upload Error!'
-                    context.set_details(message)
-                    context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                    return hwsc_file_transaction_svc_pb2.FileTransactionResponse()
+                for getName in request_iterator:
+                    save_chunks_to_file(request_iterator, getName.fileName)
 
-                status = hwsc_file_transaction_svc_pb2.FileTransactionResponse()
-                status.code = grpc.StatusCode.OK
-                assert status.HasField("code")
+                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(message='OK')
 
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                    message='OK',
-                    status=status.code,
-                    url='url: /res' + context.fileName,
-                    length=64)
 
             self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
