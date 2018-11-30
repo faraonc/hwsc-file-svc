@@ -42,7 +42,7 @@ def get_file_type(fileName):
 def upload_file_to_azure(chunks,fileName):
     try:
         # Create the BlockBlockService that is used to call the Blob service for the storage account
-        block_blob_service = BlockBlobService(account_name='hwscdevstorage', account_key='qnxMLlxsVVpNkxxrr7+qzm3eEZMM0I8ab95eafqp8bnO9UbSucfsa2XlYhgkXLrFMb9/mihyd4loY69E+vQJiA==')
+        block_blob_service = BlockBlobService(account_name='', account_key='')
 
         # Create a container.
         container_name = get_file_type(fileName)
