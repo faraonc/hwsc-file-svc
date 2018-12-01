@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 grpcio-tools = "*"
 googleapis-common-protos = "*"
+azure = "*"
+azure-storage = "*"
 
 [dev-packages]
 
