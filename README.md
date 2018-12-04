@@ -41,7 +41,7 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
 ## Pull the proto file and compiled pb from the hwsc-api-blocks
-- TODO
+- 
 
 # Before running service
 - `$ pip install pytest --dev` (Unit test for the application)
@@ -50,6 +50,6 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `$ pipenv lock` (Lock the environment to ensure the same dependency for production)
 
 # How to run service
-- On the command, type `$ pipenv install --ignore-pipfile`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
-- Type `$ pipenv run python nameofthefile.py`. Example: `$ pipenv run python main.py`
+- On the command, type `$ pipenv install`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
+- Type `$ pipenv run python3 main.py`. 
 

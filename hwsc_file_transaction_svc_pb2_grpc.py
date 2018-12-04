@@ -14,18 +14,18 @@ class FileTransactionServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.GetStatus = channel.unary_unary(
-        '/hwscFileTransactionSvc.FileTransactionService/GetStatus',
+    self.get_status = channel.unary_unary(
+        '/hwscFileTransactionSvc.FileTransactionService/get_status',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
-    self.UploadFile = channel.stream_unary(
-        '/hwscFileTransactionSvc.FileTransactionService/UploadFile',
+    self.upload_file = channel.stream_unary(
+        '/hwscFileTransactionSvc.FileTransactionService/upload_file',
         request_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
-    self.DownloadFile = channel.unary_stream(
-        '/hwscFileTransactionSvc.FileTransactionService/DownloadFile',
+    self.download_zip_files = channel.unary_stream(
+        '/hwscFileTransactionSvc.FileTransactionService/download_zip_files',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
         )
@@ -35,21 +35,21 @@ class FileTransactionServiceServicer(object):
   """Service: define the methods that gRPC server can expose to the client
   """
 
-  def GetStatus(self, request, context):
+  def get_status(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def UploadFile(self, request_iterator, context):
+  def upload_file(self, request_iterator, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def DownloadFile(self, request, context):
+  def download_zip_files(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -59,18 +59,18 @@ class FileTransactionServiceServicer(object):
 
 def add_FileTransactionServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'GetStatus': grpc.unary_unary_rpc_method_handler(
-          servicer.GetStatus,
+      'get_status': grpc.unary_unary_rpc_method_handler(
+          servicer.get_status,
           request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
-      'UploadFile': grpc.stream_unary_rpc_method_handler(
-          servicer.UploadFile,
+      'upload_file': grpc.stream_unary_rpc_method_handler(
+          servicer.upload_file,
           request_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
-      'DownloadFile': grpc.unary_stream_rpc_method_handler(
-          servicer.DownloadFile,
+      'download_zip_files': grpc.unary_stream_rpc_method_handler(
+          servicer.download_zip_files,
           request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
       ),
