@@ -12,14 +12,14 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
              def __init__(self):
                  pass
 
-             def get_status(self, request, context):
+             def getStatus(self, request, context):
                  print("Get Status")
 
-             def download_zip_files(self, request_iterator, context):
+             def downloadZippedFiles(self, request_iterator, context):
                  if request_iterator.name:
                      return utility.download_chunk(self.tmp_file_name)
 
-             def upload_file(self, request_iterator, context):
+             def uploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
 
                  for getName in request_iterator:
