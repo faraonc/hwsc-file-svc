@@ -3,9 +3,9 @@ syntax = "proto3";
 package hwscFileTransactionSvc;
 
 service FileTransactionService{
-    rpc getStatus (FileTransactionRequest) returns (FileTransactionResponse){}
-    rpc uploadFile (stream Chunk) returns (FileTransactionResponse){}
-    rpc downloadZippedFiles (FileTransactionRequest) returns (stream Chunk){}
+    rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
+    rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
+    rpc DownloadZippedFiles (FileTransactionRequest) returns (stream Chunk){}
 }
 
 message FileTransactionRequest{

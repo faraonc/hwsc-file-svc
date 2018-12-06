@@ -12,14 +12,14 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
              def __init__(self):
                  pass
 
-             def getStatus(self, request, context):
+             def GetStatus(self, request, context):
                  print("Get Status")
 
-             def downloadZippedFiles(self, request_iterator, context):
+             def DownloadZippedFiles(self, request_iterator, context):
                  if request_iterator.name:
                      return utility.download_chunk(self.tmp_file_name)
 
-             def uploadFile(self, request_iterator, context):
+             def UploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
 
                  for getName in request_iterator:
@@ -37,6 +37,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                      url=getUrl
                  )
 
+             #TODO
              self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
          hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)

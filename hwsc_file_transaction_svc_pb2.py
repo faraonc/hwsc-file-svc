@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hwscFileTransactionSvc',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x16hwscFileTransactionSvc\"E\n\x16\x46ileTransactionRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04urls\x18\x03 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"M\n\x05\x43hunk\x12\x10\n\x06\x62uffer\x18\x01 \x01(\x0cH\x00\x12\x12\n\x08\x66ileName\x18\x02 \x01(\tH\x00\x12\x10\n\x06length\x18\x03 \x01(\x03H\x00\x42\x0c\n\ntest_oneof2\xd4\x02\n\x16\x46ileTransactionService\x12n\n\tgetStatus\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x12`\n\nuploadFile\x12\x1d.hwscFileTransactionSvc.Chunk\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00(\x01\x12h\n\x13\x64ownloadZippedFiles\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a\x1d.hwscFileTransactionSvc.Chunk\"\x00\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x16hwscFileTransactionSvc\"E\n\x16\x46ileTransactionRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04urls\x18\x03 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"M\n\x05\x43hunk\x12\x10\n\x06\x62uffer\x18\x01 \x01(\x0cH\x00\x12\x12\n\x08\x66ileName\x18\x02 \x01(\tH\x00\x12\x10\n\x06length\x18\x03 \x01(\x03H\x00\x42\x0c\n\ntest_oneof2\xd4\x02\n\x16\x46ileTransactionService\x12n\n\tGetStatus\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x12`\n\nUploadFile\x12\x1d.hwscFileTransactionSvc.Chunk\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00(\x01\x12h\n\x13\x44ownloadZippedFiles\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a\x1d.hwscFileTransactionSvc.Chunk\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -215,8 +215,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   serialized_end=633,
   methods=[
   _descriptor.MethodDescriptor(
-    name='getStatus',
-    full_name='hwscFileTransactionSvc.FileTransactionService.getStatus',
+    name='GetStatus',
+    full_name='hwscFileTransactionSvc.FileTransactionService.GetStatus',
     index=0,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
@@ -224,8 +224,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='uploadFile',
-    full_name='hwscFileTransactionSvc.FileTransactionService.uploadFile',
+    name='UploadFile',
+    full_name='hwscFileTransactionSvc.FileTransactionService.UploadFile',
     index=1,
     containing_service=None,
     input_type=_CHUNK,
@@ -233,8 +233,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
     serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='downloadZippedFiles',
-    full_name='hwscFileTransactionSvc.FileTransactionService.downloadZippedFiles',
+    name='DownloadZippedFiles',
+    full_name='hwscFileTransactionSvc.FileTransactionService.DownloadZippedFiles',
     index=2,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
