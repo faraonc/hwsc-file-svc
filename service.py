@@ -22,19 +22,19 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
              def UploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
 
-                 for getName in request_iterator:
-                     getUrl = utility.upload_file_to_azure(request_iterator, getName.fileName)
+                 for get_Name in request_iterator:
+                     get_Url = utility.upload_file_to_azure(request_iterator, get_Name.fileName)
 
                  status = hwsc_file_transaction_svc_pb2.FileTransactionResponse()
                  for status in request_iterator:
                      status.code = grpc.StatusCode.OK
 
-                 getMessage = grpc.StatusCode.OK.name
+                 get_Message = grpc.StatusCode.OK.name
 
                  return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                      code=status.code,
-                     message=getMessage,
-                     url=getUrl
+                     message=get_Message,
+                     url=get_Url
                  )
 
              #TODO
