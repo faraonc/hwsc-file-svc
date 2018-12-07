@@ -20,25 +20,31 @@ def download_chunk(file):
              yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
 
 def get_file_type(fileName):
-    fileType = ''
-    imageRegex = set('.jpg .jpeg . png .bmp . tif .gif .tiff'.split())
-    audioRegex = set('.wav .wma . ogg . m4a .mp3'.split())
-    videoRegex = set('.flv .wmv .mov .avi .mp4'.split())
-    fileRegex = set('.doc .txt .mat'.split())
+    IMAGES = "images"
+    AUDIOS = "audios"
+    VIDEOS = "videos"
+    FILES = "files"
 
-    _, extension = os.path.splitext(fileName)
-    if extension in imageRegex:
-        fileType = 'images'
-    elif extension in audioRegex:
-        fileType = 'audios'
-    elif extension in videoRegex:
-        fileType = 'videos'
-    elif extension in fileRegex:
-        fileType = 'files'
+    image_exts_dict = {"jpg" : IMAGES, "jpeg" : IMAGES, "png" : IMAGES, "bmp" : IMAGES, "tif" : IMAGES, "gif" : IMAGES, "tiff" : IMAGES}
+    audio_exts_dict = {"wav" : AUDIOS, "wma" : AUDIOS, "ogg" : AUDIOS, "m4a": AUDIOS, "mp3" : AUDIOS}
+    video_exts_dict = {"flv" : VIDEOS, "wmv" : VIDEOS, "mov" : VIDEOS, "avi" : VIDEOS, "mp4" : VIDEOS}
+
+    fileList = fileName.split('.')
+    extension = fileList[-1]
+    fileType = "files"
+
+    if image_exts_dict.get(extension):
+        fileType = "images"
+    elif audio_exts_dict.get(extension):
+        fileType = "audios"
+    elif video_exts_dict.get(extension):
+        fileType = "videos"
+    else :
+        fileType = FILES
+
     return fileType
 
 def upload_file_to_azure(chunks, fileName):
-
     try:
         # Create the BlockBlockService that is used to call the Blob service for the storage account
         block_blob_service = BlockBlobService(account_name=config.CONFIG['storage'], account_key=config.CONFIG['storage_key'])
