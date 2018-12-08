@@ -29,6 +29,11 @@ class FileTransactionServiceStub(object):
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
         )
+    self.CreateUserFolder = channel.unary_unary(
+        '/hwscFileTransactionSvc.FileTransactionService/CreateUserFolder',
+        request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
+        response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
+        )
 
 
 class FileTransactionServiceServicer(object):
@@ -56,6 +61,13 @@ class FileTransactionServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def CreateUserFolder(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_FileTransactionServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -73,6 +85,11 @@ def add_FileTransactionServiceServicer_to_server(servicer, server):
           servicer.DownloadZippedFiles,
           request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
+      ),
+      'CreateUserFolder': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateUserFolder,
+          request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
+          response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

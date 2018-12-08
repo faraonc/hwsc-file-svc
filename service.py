@@ -22,8 +22,8 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
              def UploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
 
-                 for get_Name in request_iterator:
-                     get_Url = utility.upload_file_to_azure(request_iterator, get_Name.fileName)
+                 for get_name in request_iterator:
+                     get_url = utility.upload_file_to_azure(request_iterator, get_name.file_name)
 
                  status = hwsc_file_transaction_svc_pb2.FileTransactionResponse()
                  for status in request_iterator:
@@ -34,9 +34,15 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                  return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                      code=status.code,
                      message=get_Message,
-                     url=get_Url
+                     url=get_url
                  )
 
+             def CreateUuidFolder(self, request, context):
+                print("[INFO] Requesting CreateUuidFolder service")
+
+                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                    message="OK"
+                )
              #TODO
              self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
@@ -45,10 +51,10 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
      def start(self, port):
          self.server.add_insecure_port(f'[::]:{port}')
          self.server.start()
-         print("Server is running...")
+         print("[INFO] hwsc-file-transaction-svc initializing...")
 
          try:
-             while True:
-                 time.sleep(60 * 60 * 24)
+           while True:
+                pass
          except KeyboardInterrupt:
-             self.server.stop(0)
+                  self.server.stop(0)
