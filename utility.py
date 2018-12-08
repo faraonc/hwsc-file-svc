@@ -23,11 +23,10 @@ def get_file_type(file_name):
     IMAGES = "images"
     AUDIOS = "audios"
     VIDEOS = "videos"
-    FILES = "files"
 
-    image_exts_dict = {"jpg" : IMAGES, "jpeg" : IMAGES, "png" : IMAGES, "bmp" : IMAGES, "tif" : IMAGES, "gif" : IMAGES, "tiff" : IMAGES}
-    audio_exts_dict = {"wav" : AUDIOS, "wma" : AUDIOS, "ogg" : AUDIOS, "m4a": AUDIOS, "mp3" : AUDIOS}
-    video_exts_dict = {"flv" : VIDEOS, "wmv" : VIDEOS, "mov" : VIDEOS, "avi" : VIDEOS, "mp4" : VIDEOS}
+    image_exts_dict = {"jpg":IMAGES, "jpeg":IMAGES, "png":IMAGES, "bmp":IMAGES, "tif":IMAGES, "gif":IMAGES, "tiff":IMAGES}
+    audio_exts_dict = {"wav":AUDIOS, "wma":AUDIOS, "ogg":AUDIOS, "m4a":AUDIOS, "mp3":AUDIOS}
+    video_exts_dict = {"flv":VIDEOS, "wmv":VIDEOS, "mov":VIDEOS, "avi":VIDEOS, "mp4":VIDEOS}
 
     file_list = file_name.split('.')
     extension = file_list[-1]
@@ -45,7 +44,7 @@ def get_file_type(file_name):
 def upload_file_to_azure(chunks, file_name):
     try:
         # Create the BlockBlockService that is used to call the Blob service for the storage account
-        block_blob_service = BlockBlobService(account_name=config.CONFIG['storage'], account_key=config.CONFIG['storage_key'])
+        block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"], account_key=config.CONFIG["storage_key"])
 
         # Create a container.
         container_name = get_file_type(file_name)
@@ -62,7 +61,7 @@ def upload_file_to_azure(chunks, file_name):
         stream.seek(0)
         block_blob_service.create_blob_from_stream(container_name, file_name, stream)
 
-        print("\nUploading to Blob storage the file name:" + file_name)
+        print("\n[DEBUG]Uploading to Blob storage the file name:", file_name)
 
         url_upload = block_blob_service.make_blob_url(container_name, file_name)
         print(url_upload)
