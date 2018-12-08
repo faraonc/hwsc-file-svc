@@ -37,7 +37,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                      url=get_url
                  )
 
-             def CreateUuidFolder(self, request, context):
+             def CreateUserFolder(self, request, context):
                 print("[INFO] Requesting CreateUuidFolder service")
 
                 return hwsc_file_transaction_svc_pb2.FileTransactionResponse(

@@ -6,6 +6,7 @@ This provides file management service which includes the following:
 - GetStatus()
 - DownloadZippedFiles()
 - UploadFile()
+- CreateUserFolder()
 
 ## Prerequisites
 - Python 3.7 or greater
