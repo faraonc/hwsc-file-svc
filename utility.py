@@ -20,13 +20,9 @@ def download_chunk(file):
              yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
 
 def get_file_type(file_name):
-    IMAGES = "images"
-    AUDIOS = "audios"
-    VIDEOS = "videos"
-
-    image_exts_dict = {"jpg":IMAGES, "jpeg":IMAGES, "png":IMAGES, "bmp":IMAGES, "tif":IMAGES, "gif":IMAGES, "tiff":IMAGES}
-    audio_exts_dict = {"wav":AUDIOS, "wma":AUDIOS, "ogg":AUDIOS, "m4a":AUDIOS, "mp3":AUDIOS}
-    video_exts_dict = {"flv":VIDEOS, "wmv":VIDEOS, "mov":VIDEOS, "avi":VIDEOS, "mp4":VIDEOS}
+    image_exts_dict = {"jpg": True, "jpeg": True, "png": True, "bmp": True, "tif": True, "gif": True, "tiff": True}
+    audio_exts_dict = {"wav": True, "wma": True, "ogg": True, "m4a": True, "mp3": True}
+    video_exts_dict = {"flv": True, "wmv": True, "mov": True, "avi": True, "mp4": True}
 
     file_list = file_name.split('.')
     extension = file_list[-1]
@@ -41,31 +37,35 @@ def get_file_type(file_name):
 
     return file_type
 
-def upload_file_to_azure(chunks, file_name):
+def upload_file_to_azure(request_iterator, file_name):
     try:
         # Create the BlockBlockService that is used to call the Blob service for the storage account
         block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"], account_key=config.CONFIG["storage_key"])
 
         # Create a container.
         container_name = get_file_type(file_name)
-        block_blob_service.create_container(container_name);
+        block_blob_service.create_container(container_name)
 
         # Set the permission so the blobs are public.
         block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
 
         stream = io.BytesIO()
 
-        for chunk in chunks:
+        for chunk in request_iterator:
             stream.write(chunk.buffer)
 
         stream.seek(0)
-        block_blob_service.create_blob_from_stream(container_name, file_name, stream)
 
-        print("\n[DEBUG]Uploading to Blob storage the file name:", file_name)
+        if block_blob_service.exists(container_name):
+            block_blob_service.create_blob_from_stream(container_name, file_name, stream)
+            print("\n[DEBUG]Uploading to Blob storage the file name:", file_name)
 
-        url_upload = block_blob_service.make_blob_url(container_name, file_name)
-        print(url_upload)
-        return url_upload
+            url_upload = block_blob_service.make_blob_url(container_name, file_name)
+            print(url_upload)
+            return url_upload
+        else:
+            print("\n[ERROR]The container does not exist.")
+            return None
 
     #TODO
     except Exception as NoSuchBlobException:
