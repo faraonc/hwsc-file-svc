@@ -1,10 +1,11 @@
 from concurrent import futures
 from azure.storage.blob import BlockBlobService, PublicAccess
-import os, uuid,sys
+import os,uuid,sys
 import io
 import grpc
 import time
 import os.path
+import re
 import config
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
@@ -37,36 +38,102 @@ def get_file_type(file_name):
 
     return file_type
 
+def create_uuid_container_in_azure(request):
+    #print(request.uuid)
+    uuid = request.uuid[2:]
+
+    # regular expression that check valid uuid
+    prog = re.compile(r'^[a-zA-Z0-9]{26}$')
+    uuid_regex = prog.match(uuid)
+    #print(uuid)
+
+    if uuid_regex:
+        block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"],
+                                              account_key=config.CONFIG["storage_key"])
+
+        list = block_blob_service.list_containers(request.uuid)
+        count = 0
+        for c in list:
+            count = count + 1
+
+        images_container = request.uuid + "-images"
+        audios_container = request.uuid + "-audios"
+        files_container = request.uuid + "-files"
+        videos_container = request.uuid + "-videos"
+
+        # Checking whether the blobs that associated with uuid exists
+        if count == 0:
+            block_blob_service.create_container(images_container)
+            block_blob_service.create_container(audios_container)
+            block_blob_service.create_container(files_container)
+            block_blob_service.create_container(videos_container)
+            print("Successfully creates folders.")
+            return True
+
+        else:
+            raise ValueError('\n[ERROR]The user folder already exists.')
+
+    else:
+        raise ValueError('\n[ERROR]The user id is not in valid format.')
+
 def upload_file_to_azure(request_iterator, file_name):
     try:
-        # Create the BlockBlockService that is used to call the Blob service for the storage account
-        block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"], account_key=config.CONFIG["storage_key"])
+        # First get the uuid and check whether it meets the requirement
+        uuid = ''
+        for id in request_iterator:
+            if len(id.uuid) > 1:
+                uuid = id.uuid
+            else:
+                pass
 
-        # Create a container.
-        container_name = get_file_type(file_name)
-        block_blob_service.create_container(container_name)
+        uuid = uuid[2:]
+        # regular expression that check valid uuid
+        prog = re.compile(r'^[a-zA-Z0-9]{26}$')
+        uuid_regex = prog.match(uuid)
 
-        # Set the permission so the blobs are public.
-        block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
+        if uuid_regex:
+            # Create the BlockBlockService that is used to call the Blob service for the storage account
+            block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"],
+                                                  account_key=config.CONFIG["storage_key"])
 
-        stream = io.BytesIO()
+            uuid = 'u-' + uuid
+            # Returns the list of blobs attached to the uuid
+            list = block_blob_service.list_containers(uuid)
+            count = 0
+            for c in list:
+                count = count + 1
 
-        for chunk in request_iterator:
-            stream.write(chunk.buffer)
+            # Checking whether the blobs that associated with uuid exists
+            if count == 0:
+                raise ValueError('\n[ERROR]There is no folder associated with the ' + uuid)
 
-        stream.seek(0)
+            else:
+                container_type = get_file_type(file_name)
+                container_name = uuid + '-' + container_type
 
-        if block_blob_service.exists(container_name):
-            block_blob_service.create_blob_from_stream(container_name, file_name, stream)
-            print("\n[DEBUG]Uploading to Blob storage the file name:", file_name)
+                # Set the permission so the blobs are public.
+                block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
 
-            url_upload = block_blob_service.make_blob_url(container_name, file_name)
-            print(url_upload)
-            return url_upload
+                stream = io.BytesIO()
+
+                for chunk in request_iterator:
+                    stream.write(chunk.buffer)
+
+                stream.seek(0)
+
+                if block_blob_service.exists(container_name):
+                    block_blob_service.create_blob_from_stream(container_name, file_name, stream)
+                    print("\n[DEBUG]Uploading to folder with the file name:", file_name)
+
+                    url_upload = block_blob_service.make_blob_url(container_name, file_name)
+                    print(url_upload)
+                    return url_upload
+
+                else:
+                    raise ValueError('\n[ERROR]The folder does not exist.')
         else:
-            print("\n[ERROR]The container does not exist.")
-            return None
+            raise ValueError('\n[ERROR]The user id is not in valid format.')
 
     #TODO
-    except Exception as NoSuchBlobException:
-        print(NoSuchBlobException)
+    except Exception:
+        raise ValueError('\n[ERROR]The folder does not exist.')

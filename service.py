@@ -21,7 +21,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
              def UploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
-
+                 get_url=''
                  for get_name in request_iterator:
                      get_url = utility.upload_file_to_azure(request_iterator, get_name.file_name)
 
@@ -29,20 +29,38 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                  for status in request_iterator:
                      status.code = grpc.StatusCode.OK
 
-                 get_Message = grpc.StatusCode.OK.name
+                 get_message = grpc.StatusCode.OK.name
 
-                 return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                 if get_url != '':
+                     return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                      code=status.code,
-                     message=get_Message,
+                     message=get_message,
                      url=get_url
                  )
+
+                 else:
+                     return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                     code=grpc.StatusCode.ABORTED,
+                     message=grpc.StatusCode.ABORTED.name,
+                     url=get_url
+                 )
+
 
              def CreateUserFolder(self, request, context):
                 print("[INFO] Requesting CreateUuidFolder service")
 
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                    message="OK"
-                )
+                created = utility.create_uuid_container_in_azure(request)
+
+                if created:
+                    return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                        code=grpc.StatusCode.OK,
+                        message=grpc.StatusCode.OK.name
+                    )
+                else:
+                    return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                        code=grpc.StatusCode.ABORTED,
+                        message=grpc.StatusCode.ABORTED.name
+                    )
              #TODO
              self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
