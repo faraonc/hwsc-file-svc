@@ -2,6 +2,7 @@ from concurrent import futures
 import grpc
 import time
 import utility
+import io
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
 
@@ -21,46 +22,65 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
              def UploadFile(self, request_iterator, context):
                  print("[INFO] Requesting UploadFile service")
-                 get_url=''
-                 for get_name in request_iterator:
-                     get_url = utility.upload_file_to_azure(request_iterator, get_name.file_name)
+                 #TODO
+                 #May implement try-catch block
 
-                 status = hwsc_file_transaction_svc_pb2.FileTransactionResponse()
-                 for status in request_iterator:
-                     status.code = grpc.StatusCode.OK
+                 d = utility.get_property(request_iterator)
 
-                 get_message = grpc.StatusCode.OK.name
+                 count = utility.count_folders(d['uuid'])
+                 is_uuid_valid = utility.verify_uuid(d['uuid'])
 
-                 if get_url != '':
-                     return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                     code=status.code,
-                     message=get_message,
-                     url=get_url
-                 )
+                 if is_uuid_valid:
+                     get_url = utility.upload_file_to_azure(d['stream'], count, d['uuid'], d['f_name'])
+
+                     #TODO
+                     #write a function to validate the url, like a regex check
+                     if get_url != "":
+                        return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                            code=grpc.StatusCode.OK.value[0],
+                            message='success uploadfile',
+                            url=get_url
+                        )
+
+                     else:
+                        return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                            code=grpc.StatusCode.UNKNOWN.value[0],
+                            message='fail uploadfile',
+                        )
 
                  else:
                      return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                     code=grpc.StatusCode.ABORTED,
-                     message=grpc.StatusCode.ABORTED.name,
-                     url=get_url
-                 )
-
+                         code=grpc.StatusCode.UNKNOWN.value[0],
+                         message="invalid uuid"
+                     )
 
              def CreateUserFolder(self, request, context):
+                 #TODO
+                 #May implement try-catch block
                 print("[INFO] Requesting CreateUuidFolder service")
 
-                created = utility.create_uuid_container_in_azure(request)
+                is_uuid_valid = utility.verify_uuid(request.uuid)
 
-                if created:
-                    return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                        code=grpc.StatusCode.OK,
-                        message=grpc.StatusCode.OK.name
-                    )
+                if is_uuid_valid:
+                    count = utility.count_folders(request.uuid)
+                    created = utility.create_uuid_container_in_azure(count, request.uuid)
+
+                    if created:
+                        return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                            code=grpc.StatusCode.OK.value[0],
+                            message="success"
+                        )
+                    else:
+                        return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                            code=grpc.StatusCode.UNKNOWN.value[0],
+                            message="user folder already exist"
+                        )
                 else:
                     return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                        code=grpc.StatusCode.ABORTED,
-                        message=grpc.StatusCode.ABORTED.name
+                        code=grpc.StatusCode.UNKNOWN.value[0],
+                        message="invalid uuid"
                     )
+
              #TODO
              self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
