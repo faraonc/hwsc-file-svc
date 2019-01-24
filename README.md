@@ -3,9 +3,10 @@ This manages HWSC user file transactions
 
 ### Purpose
 This provides file management service which includes the following:
-- DownloadFile()
+- GetStatus()
+- DownloadZippedFiles()
 - UploadFile()
-- DeleteFile()
+- CreateUserFolder()
 
 ## Prerequisites
 - Python 3.7 or greater
@@ -33,6 +34,9 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - If you installed python3.7 with Homebrew, you would have pip installed already
 - On the terminal, type `$ pip install --user pipenv` 
 
+## How to manage dependency of proto files
+-Type `$./generate_dep.sh`. This will create copied proto files from the github urls.
+
 ## How to manage dependency with pipenv (to create Pipfile and Pipfile.lock)
 - Change to your project directory by typing `$ cd [project name]` 
 - To spawn a shell in a virtual environment, type `$ pipenv shell`
@@ -41,7 +45,7 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
 ## Pull the proto file and compiled pb from the hwsc-api-blocks
-- TODO
+- 
 
 # Before running service
 - `$ pip install pytest --dev` (Unit test for the application)
@@ -50,6 +54,6 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `$ pipenv lock` (Lock the environment to ensure the same dependency for production)
 
 # How to run service
-- On the command, type `$ pipenv install --ignore-pipfile`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
-- Type `$ pipenv run python nameofthefile.py`. Example: `$ pipenv run python main.py`
+- On the command, type `$ pipenv install`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
+- Type `$ pipenv run python3 main.py`. 
 

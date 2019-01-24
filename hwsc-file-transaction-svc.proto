@@ -2,26 +2,36 @@ syntax = "proto3";
 
 package hwscFileTransactionSvc;
 
-// Service: define the methods that gRPC server can expose to the client
+// The file transaction service definition
 service FileTransactionService{
+    // Gets status for user
     rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
+    // Upload files to the storage
     rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
-    rpc DownloadFile (FileTransactionRequest) returns (stream Chunk){}
+    // Download files from the storage
+    rpc DownloadZippedFiles (FileTransactionRequest) returns (stream Chunk){}
+    // Create user folder in the sorage
+    rpc CreateUserFolder(FileTransactionRequest) returns (FileTransactionResponse){}
 }
 
 message FileTransactionRequest{
     string message = 1;
     string name = 2;
-    string url = 3;
+    string uuid = 3;
+    repeated string urls = 4;
 }
 
 message FileTransactionResponse{
     oneof status {uint32 code = 1;}
     string message = 2;
     string url = 3;
-    int64 length = 4;
 }
 
 message Chunk{
-    bytes buffer = 1;
+    oneof test_oneof{
+        bytes buffer = 1;
+        int64 length = 2;
+        string file_name = 3;
+        string uuid = 4;
+    }
 }

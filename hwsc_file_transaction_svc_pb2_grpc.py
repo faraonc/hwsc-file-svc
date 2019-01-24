@@ -5,7 +5,7 @@ import hwsc_file_transaction_svc_pb2 as hwsc__file__transaction__svc__pb2
 
 
 class FileTransactionServiceStub(object):
-  """Service: define the methods that gRPC server can expose to the client
+  """The file transaction service definition
   """
 
   def __init__(self, channel):
@@ -24,34 +24,46 @@ class FileTransactionServiceStub(object):
         request_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
-    self.DownloadFile = channel.unary_stream(
-        '/hwscFileTransactionSvc.FileTransactionService/DownloadFile',
+    self.DownloadZippedFiles = channel.unary_stream(
+        '/hwscFileTransactionSvc.FileTransactionService/DownloadZippedFiles',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
+        )
+    self.CreateUserFolder = channel.unary_unary(
+        '/hwscFileTransactionSvc.FileTransactionService/CreateUserFolder',
+        request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
+        response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
 
 
 class FileTransactionServiceServicer(object):
-  """Service: define the methods that gRPC server can expose to the client
+  """The file transaction service definition
   """
 
   def GetStatus(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Gets status for user
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def UploadFile(self, request_iterator, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Upload files to the storage
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def DownloadFile(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+  def DownloadZippedFiles(self, request, context):
+    """Download files from the storage
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CreateUserFolder(self, request, context):
+    """Create user folder in the sorage
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -69,10 +81,15 @@ def add_FileTransactionServiceServicer_to_server(servicer, server):
           request_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
-      'DownloadFile': grpc.unary_stream_rpc_method_handler(
-          servicer.DownloadFile,
+      'DownloadZippedFiles': grpc.unary_stream_rpc_method_handler(
+          servicer.DownloadZippedFiles,
           request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
           response_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
+      ),
+      'CreateUserFolder': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateUserFolder,
+          request_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.FromString,
+          response_serializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

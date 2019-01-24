@@ -1,4 +1,5 @@
-import hwsc_file_transaction_svc
+import service
+import config
 
 if __name__ == '__main__':
-    hwsc_file_transaction_svc.FileTransactionService().start(50051)
+    service.FileTransactionService().start(config.CONFIG['port'])
