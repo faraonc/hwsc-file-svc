@@ -5,8 +5,8 @@ import hwsc_file_transaction_svc_pb2 as hwsc__file__transaction__svc__pb2
 
 
 class FileTransactionServiceStub(object):
-  # missing associated documentation comment in .proto file
-  pass
+  """The file transaction service definition
+  """
 
   def __init__(self, channel):
     """Constructor.
@@ -37,33 +37,33 @@ class FileTransactionServiceStub(object):
 
 
 class FileTransactionServiceServicer(object):
-  # missing associated documentation comment in .proto file
-  pass
+  """The file transaction service definition
+  """
 
   def GetStatus(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Gets status for user
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def UploadFile(self, request_iterator, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Upload files to the storage
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def DownloadZippedFiles(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Download files from the storage
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
   def CreateUserFolder(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
+    """Create user folder in the sorage
+    """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')

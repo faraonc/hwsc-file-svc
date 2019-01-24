@@ -2,10 +2,15 @@ syntax = "proto3";
 
 package hwscFileTransactionSvc;
 
+// The file transaction service definition
 service FileTransactionService{
+    // Gets status for user
     rpc GetStatus (FileTransactionRequest) returns (FileTransactionResponse){}
+    // Upload files to the storage
     rpc UploadFile (stream Chunk) returns (FileTransactionResponse){}
+    // Download files from the storage
     rpc DownloadZippedFiles (FileTransactionRequest) returns (stream Chunk){}
+    // Create user folder in the sorage
     rpc CreateUserFolder(FileTransactionRequest) returns (FileTransactionResponse){}
 }
 
