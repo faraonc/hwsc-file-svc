@@ -5,6 +5,11 @@ import utility
 import io
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
+from enum import Enum
+
+class State(Enum):
+    AVAILABLE = 0
+    UNAVAILABLE = 1
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
      """A FileTransactionService class contains servicer and corresponding functionalites."""
@@ -15,34 +20,44 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
              def __init__(self):
                  pass
 
-             #TODO
              def GetStatus(self, request, context):
-                 """Get and return status to the user."""
-                 print("Get Status")
+                 print("[INFO] Requesting GetStatus service")
 
-             #TODO
-             def DownloadZippedFiles(self, request_iterator, context):
-                 """Download zipped files from azrue blob storage."""
-                 if request_iterator.name:
-                     return utility.download_chunk(self.tmp_file_name)
+                 if(grpc.StatusCode.OK.value[0]!= State.AVAILABLE.value):
+                     context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
+                     context.set_details = grpc.StatusCode.UNAVAILABLE.value[1]
 
+                 else:
+                     context.set_code = grpc.StatusCode.OK.value[0]
+                     context.set_details = grpc.StatusCode.OK.value[1]
+
+                 return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                     code=context.set_code,
+                     message=context.set_details
+                 )
+
+             """Upload a file to the azure blob storage."""
              def UploadFile(self, request_iterator, context):
-                 """Upload a file to the azure blob storage."""
                  print("[INFO] Requesting UploadFile service")
-                 #TODO
-                 #May implement try-catch block
 
                  d = utility.get_property(request_iterator)
 
                  type = utility.get_file_type(d["f_name"])
+                 print("print file name")
+                 print(type)
+
                  is_uuid_valid = utility.verify_uuid(d["uuid"])
+                 print("print is valid uuid")
+                 print(is_uuid_valid)
 
                  if is_uuid_valid:
                      has_folder = utility.find_folder(d["uuid"], type)
+
+                     print("print has_folder")
+                     print(has_folder)
+
                      get_url = utility.upload_file_to_azure(d["stream"], has_folder, d["uuid"], d["f_name"])
 
-                     #TODO
-                     #write a function to validate the url, like a regex check
                      if get_url != "":
                         return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                             code=grpc.StatusCode.OK.value[0],
@@ -62,16 +77,16 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                          message="invalid uuid"
                      )
 
+             """Create user folder in the azure blob storage."""
              def CreateUserFolder(self, request, context):
-                """Create user folder in the azure blob storage."""
-                 #TODO
-                 #May implement try-catch block
                 print("[INFO] Requesting CreateUuidFolder service")
 
                 is_uuid_valid = utility.verify_uuid(request.uuid)
 
                 if is_uuid_valid:
                     count = utility.count_folders(request.uuid)
+                    print("print count")
+                    print(count)
                     created = utility.create_uuid_container_in_azure(count, request.uuid)
 
                     if created:
@@ -91,6 +106,12 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
                     )
 
              #TODO
+             def DownloadZippedFiles(self, request_iterator, context):
+                 """Download zipped files from azrue blob storage."""
+                 if request_iterator.name:
+                     return utility.download_chunk(self.tmp_file_name)
+
+             #TODO
              self.server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
 
          hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(Servicer(), self.server)
@@ -99,6 +120,8 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
          self.server.add_insecure_port(f'[::]:{port}')
          self.server.start()
          print("[INFO] hwsc-file-transaction-svc initializing...")
+         print("[INFO] hwsc-file-transaction started at:")
+         print(port)
 
          try:
            while True:
