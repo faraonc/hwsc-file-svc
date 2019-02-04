@@ -21,6 +21,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             """A servicer class contains functionalities for file service."""
 
             def __init__(self):
+                self.state = State.AVAILABLE
                 pass
 
             def GetStatus(self, request, context):
