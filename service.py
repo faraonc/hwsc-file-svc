@@ -6,9 +6,6 @@ import hwsc_file_transaction_svc_pb2_grpc
 from enum import Enum
 
 
-state = 0
-
-
 class State(Enum):
     """A current state class of file transaction service"""
     AVAILABLE = 0
@@ -29,11 +26,8 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             def GetStatus(self, request, context):
                 """Return the status of the service"""
                 print("[INFO] Requesting GetStatus service")
-                global state
-                state = State.AVAILABLE.value
-                available = grpc.StatusCode.OK.value[0]
 
-                if state != available:
+                if self.state != State.AVAILABLE:
                     context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
                     context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
