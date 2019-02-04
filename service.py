@@ -14,6 +14,7 @@ class State(Enum):
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
     """A FileTransactionService class contains servicer and corresponding functionalites."""
+    _state = State.AVAILABLE
 
     def __init__(self):
 
@@ -21,14 +22,13 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             """A servicer class contains functionalities for file service."""
 
             def __init__(self):
-                self.state = State.AVAILABLE
                 pass
 
             def GetStatus(self, request, context):
                 """Return the status of the service"""
                 print("[INFO] Requesting GetStatus service")
 
-                if self.state != State.AVAILABLE:
+                if FileTransactionService.state != State.AVAILABLE:
                     context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
                     context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
