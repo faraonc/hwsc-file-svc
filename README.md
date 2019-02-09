@@ -57,3 +57,11 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - On the command, type `$ pipenv install`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
 - Type `$ pipenv run python3 main.py`. 
 
+# How to test service
+- Install `$pipenv install pytest` 
+- Type `$py.test -v` for testing to see which cases are passed or failed
+
+# How to report coverage
+- Install `$pipenv install pipenv install pytest-cov`
+- Type `$pytest --cov=[myproj] [test_file.py]` to visualize coverage in console
+- Type `$pytest --cov=[test_file.py] --cov-report=html` to report the coverage in html file
