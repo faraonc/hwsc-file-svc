@@ -1,47 +1,55 @@
-import pytest
 import utility
+import pytest
 
-def test_get_file_type():
-    assert utility.get_file_type("cat.jpg") == "images"
-    assert utility.get_file_type("cat.jpeg") == "images"
-    assert utility.get_file_type("cat.png") == "images"
-    assert utility.get_file_type("cat.bmp") == "images"
-    assert utility.get_file_type("cat.tif") == "images"
-    assert utility.get_file_type("cat.gif") == "images"
-    assert utility.get_file_type("cat.tiff") == "images"
 
-    assert utility.get_file_type("cat.wav") == "audios"
-    assert utility.get_file_type("cat.wma") == "audios"
-    assert utility.get_file_type("cat.ogg") == "audios"
-    assert utility.get_file_type("cat.m4a") == "audios"
-    assert utility.get_file_type("cat.mp3") == "audios"
+@pytest.mark.parametrize("input, output",
+                         [
+                             ("cat.jpg", "images"),
+                             ("cat.jpeg", "images"),
+                             ("cat.png", "images"),
+                             ("cat.bmp", "images"),
+                             ("cat.tif", "images"),
+                             ("cat.gif", "images"),
+                             ("cat.tiff", "images"),
+                             ("cat_song.wav", "audios"),
+                             ("cat_song.wma", "audios"),
+                             ("cat_song.ogg", "audios"),
+                             ("cat_song.m4a", "audios"),
+                             ("cat_song.mp3", "audios"),
+                             ("cat_jump.flv", "videos"),
+                             ("cat_jump.wmv", "videos"),
+                             ("cat_jump.mov", "videos")
+                         ]
+                         )
+def test_get_file_type(input, output):
+    file_type = utility.get_file_type(input)
+    assert file_type == output
 
-    assert utility.get_file_type("cat.flv") == "videos"
-    assert utility.get_file_type("cat.wmv") == "videos"
-    assert utility.get_file_type("cat.mov") == "videos"
-    assert utility.get_file_type("cat.avi") == "videos"
-    assert utility.get_file_type("cat.mp4") == "videos"
 
-    assert utility.get_file_type("cat.dat") == "files"
-    assert utility.get_file_type("cat.xml") == "files"
-    assert utility.get_file_type("cat.csv") == "files"
-    assert utility.get_file_type("cat.py") == "files"
-    assert utility.get_file_type("cat.html") == "files"
+@pytest.mark.parametrize("input1, input2, output",
+                         [
+                             (0, "1234abcd5454efef8842ll3fsc", True),
+                             (4, "1234abcd5454efef8842ll3fsc", False),
+                             (-4, "1234abcd5454efef8842ll3fsc", False)
+                         ]
+                         )
+def test_create_uuid_container_in_azure(input1, input2, output):
+    created = utility.create_uuid_container_in_azure(input1, input2)
+    assert created == output
 
-def test_create_uuid_container_in_azure():
-     assert utility.create_uuid_container_in_azure(0, "1234abcd5454efef8842ll3fsc") == True
-     assert utility.create_uuid_container_in_azure(4, "1234abcd5454efef8842ll3fsc") == False
-     assert utility.create_uuid_container_in_azure(-4, "1234abcd5454efef8842ll3fsc") == False
 
-def test_verify_uuid():
-    # testing with correct uuid
-    assert utility.verify_uuid("1234abcd5454efef8842ll3fsc") == True
-
-    # testing with shorter length uuid
-    assert utility.verify_uuid("1234abcd5454efef8842ll3fs") == False
-
-    # testing with longer length uuid
-    assert utility.verify_uuid("1234abcd5454efef8842llaaaab") == False
-
-    # testing with special case in uuid
-    assert utility.verify_uuid("1234abcd5454efef8842ll3!ss") == False
+@pytest.mark.parametrize("input, output",
+                         [
+                             # testing with correct uuid
+                             ("1234abcd5454efef8842ll3fsc", True),
+                             # testing with shorter length uuid
+                             ("1234abcd5454efef8842ll3fs", False),
+                             # testing with longer length uuid
+                             ("1234abcd5454efef8842llaaaab", False),
+                             # testing with special case in uuid
+                             ("1234abcd5454efef8842ll3!ss", False)
+                         ]
+                         )
+def test_verify_uuid(input, output):
+    verified = utility.verify_uuid(input)
+    assert verified == output
