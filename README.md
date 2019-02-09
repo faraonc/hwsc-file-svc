@@ -44,11 +44,11 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile`: track which dependencies your project needs in case you need to reinstall them
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
-## Pull the proto file and compiled pb from the hwsc-api-blocks
-- 
+# How to install dependencies
+- To install for development: Type `$pipenv install -dev`
+- To install for delivering services in a container: `$pipenv install`
 
-# Before running service
-- `$ pip install pytest --dev` (Unit test for the application)
+# Useful commands for dependencies
 - `$ pipenv install -dev` (Put dependency in `dev-packages` in `Pipfile`)
 - `$ pipenv install -env` (Update `Pipfile.lock`)
 - `$ pipenv lock` (Lock the environment to ensure the same dependency for production)
@@ -57,11 +57,11 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - On the command, type `$ pipenv install`. This ignores the Pipfile for installation and use what's in the Pipfile.lock
 - Type `$ pipenv run python3 main.py`. 
 
-# How to test service
-- Install `$pipenv install pytest` 
-- Type `$py.test -v` for testing to see which cases are passed or failed
+# How to test and report test 
+- Type `$pipenv run pytest -v` for testing to see which cases are passed or failed
+- Type `$pipenv run pytest --cov=.` to visualize coverage in console
+- Type `$pipenv run pytest --cov=. --cov-report=html` to report the coverage in html file
 
-# How to report coverage
-- Install `$pipenv install pipenv install pytest-cov`
-- Type `$pytest --cov=[myproj] [test_file.py]` to visualize coverage in console
-- Type `$pytest --cov=[myproj] --cov-report=html` to report the coverage in html file
+# Where is test report generated
+- After the command `$pipenv run pytest --cov=. --cov-report=html`, it will create htmlcov directory
+- The test report html files are located in the directory
