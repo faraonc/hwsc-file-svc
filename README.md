@@ -64,4 +64,4 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 # How to report coverage
 - Install `$pipenv install pipenv install pytest-cov`
 - Type `$pytest --cov=[myproj] [test_file.py]` to visualize coverage in console
-- Type `$pytest --cov=[test_file.py] --cov-report=html` to report the coverage in html file
+- Type `$pytest --cov=[myproj] --cov-report=html` to report the coverage in html file
