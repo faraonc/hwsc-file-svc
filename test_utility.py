@@ -2,7 +2,7 @@ import utility
 import pytest
 
 
-@pytest.mark.parametrize("input, output",
+@pytest.mark.parametrize("input, expected_output",
                          [
                              ("cat.jpg", "images"),
                              ("cat.jpeg", "images"),
@@ -27,24 +27,24 @@ import pytest
                              ("cat.doc", "files")
                          ]
                          )
-def test_get_file_type(input, output):
-    file_type = utility.get_file_type(input)
-    assert file_type == output
+def test_get_file_type(input, expected_output):
+    actual_output = utility.get_file_type(input)
+    assert actual_output == expected_output
 
 
-@pytest.mark.parametrize("input1, input2, output",
+@pytest.mark.parametrize("input1, input2, expected_output",
                          [
                              (0, "1234abcd5454efef8842ll3fsc", True),
                              (4, "1234abcd5454efef8842ll3fsc", False),
                              (-4, "1234abcd5454efef8842ll3fsc", False)
                          ]
                          )
-def test_create_uuid_container_in_azure(input1, input2, output):
-    created = utility.create_uuid_container_in_azure(input1, input2)
-    assert created == output
+def test_create_uuid_container_in_azure(input1, input2, expected_output):
+    actual_output = utility.create_uuid_container_in_azure(input1, input2)
+    assert actual_output == expected_output
 
 
-@pytest.mark.parametrize("input, output",
+@pytest.mark.parametrize("input, expected_output",
                          [
                              # testing with correct uuid
                              ("1234abcd5454efef8842ll3fsc", True),
@@ -56,6 +56,6 @@ def test_create_uuid_container_in_azure(input1, input2, output):
                              ("1234abcd5454efef8842ll3!ss", False)
                          ]
                          )
-def test_verify_uuid(input, output):
-    verified = utility.verify_uuid(input)
-    assert verified == output
+def test_verify_uuid(input, expected_output):
+    actual_output = utility.verify_uuid(input)
+    assert actual_output == expected_output
