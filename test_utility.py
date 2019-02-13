@@ -18,7 +18,13 @@ import pytest
                              ("cat_song.mp3", "audios"),
                              ("cat_jump.flv", "videos"),
                              ("cat_jump.wmv", "videos"),
-                             ("cat_jump.mov", "videos")
+                             ("cat_jump.mov", "videos"),
+                             ("cat_jump.avi", "videos"),
+                             ("cat_jump.mp4", "videos"),
+                             ("cat.pdf", "files"),
+                             ("cat.txt", "files"),
+                             ("cat.html", "files"),
+                             ("cat.doc", "files")
                          ]
                          )
 def test_get_file_type(input, output):
