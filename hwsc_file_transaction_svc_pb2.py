@@ -12,50 +12,59 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from lib import authority_pb2 as lib_dot_authority__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='hwsc-file-transaction-svc.proto',
-  package='hwscFileTransactionSvc',
+  package='file',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x16hwscFileTransactionSvc\"S\n\x16\x46ileTransactionRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04uuid\x18\x03 \x01(\t\x12\x0c\n\x04urls\x18\x04 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"^\n\x05\x43hunk\x12\x10\n\x06\x62uffer\x18\x01 \x01(\x0cH\x00\x12\x10\n\x06length\x18\x02 \x01(\x03H\x00\x12\x13\n\tfile_name\x18\x03 \x01(\tH\x00\x12\x0e\n\x04uuid\x18\x04 \x01(\tH\x00\x42\x0c\n\ntest_oneof2\xcb\x03\n\x16\x46ileTransactionService\x12n\n\tGetStatus\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x12`\n\nUploadFile\x12\x1d.hwscFileTransactionSvc.Chunk\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00(\x01\x12h\n\x13\x44ownloadZippedFiles\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a\x1d.hwscFileTransactionSvc.Chunk\"\x00\x30\x01\x12u\n\x10\x43reateUserFolder\x12..hwscFileTransactionSvc.FileTransactionRequest\x1a/.hwscFileTransactionSvc.FileTransactionResponse\"\x00\x62\x06proto3')
-)
+  serialized_options=_b('ZFgithub.com/hwsc-org/hwsc-api-blocks/int/hwsc-file-transaction-svc/file'),
+  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x04\x66ile\x1a\x13lib/authority.proto\"\x80\x01\n\x16\x46ileTransactionRequest\x12+\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.Identification\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04uuid\x18\x04 \x01(\t\x12\x0c\n\x04urls\x18\x05 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"\x8c\x01\n\x05\x43hunk\x12-\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.IdentificationH\x00\x12\x10\n\x06\x62uffer\x18\x02 \x01(\x0cH\x00\x12\x10\n\x06length\x18\x03 \x01(\x03H\x00\x12\x13\n\tfile_name\x18\x04 \x01(\tH\x00\x12\x0e\n\x04uuid\x18\x05 \x01(\tH\x00\x42\x0b\n\tis_one_of2\xbb\x02\n\x16\x46ileTransactionService\x12J\n\tGetStatus\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x12<\n\nUploadFile\x12\x0b.file.Chunk\x1a\x1d.file.FileTransactionResponse\"\x00(\x01\x12\x44\n\x13\x44ownloadZippedFiles\x12\x1c.file.FileTransactionRequest\x1a\x0b.file.Chunk\"\x00\x30\x01\x12Q\n\x10\x43reateUserFolder\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x42HZFgithub.com/hwsc-org/hwsc-api-blocks/int/hwsc-file-transaction-svc/fileb\x06proto3')
+  ,
+  dependencies=[lib_dot_authority__pb2.DESCRIPTOR,])
 
 
 
 
 _FILETRANSACTIONREQUEST = _descriptor.Descriptor(
   name='FileTransactionRequest',
-  full_name='hwscFileTransactionSvc.FileTransactionRequest',
+  full_name='file.FileTransactionRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message', full_name='hwscFileTransactionSvc.FileTransactionRequest.message', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='identification', full_name='file.FileTransactionRequest.identification', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='hwscFileTransactionSvc.FileTransactionRequest.name', index=1,
+      name='message', full_name='file.FileTransactionRequest.message', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uuid', full_name='hwscFileTransactionSvc.FileTransactionRequest.uuid', index=2,
+      name='name', full_name='file.FileTransactionRequest.name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='urls', full_name='hwscFileTransactionSvc.FileTransactionRequest.urls', index=3,
-      number=4, type=9, cpp_type=9, label=3,
+      name='uuid', full_name='file.FileTransactionRequest.uuid', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='urls', full_name='file.FileTransactionRequest.urls', index=4,
+      number=5, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -72,34 +81,34 @@ _FILETRANSACTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=59,
-  serialized_end=142,
+  serialized_start=63,
+  serialized_end=191,
 )
 
 
 _FILETRANSACTIONRESPONSE = _descriptor.Descriptor(
   name='FileTransactionResponse',
-  full_name='hwscFileTransactionSvc.FileTransactionResponse',
+  full_name='file.FileTransactionResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='code', full_name='hwscFileTransactionSvc.FileTransactionResponse.code', index=0,
+      name='code', full_name='file.FileTransactionResponse.code', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='message', full_name='hwscFileTransactionSvc.FileTransactionResponse.message', index=1,
+      name='message', full_name='file.FileTransactionResponse.message', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='url', full_name='hwscFileTransactionSvc.FileTransactionResponse.url', index=2,
+      name='url', full_name='file.FileTransactionResponse.url', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -117,45 +126,52 @@ _FILETRANSACTIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='status', full_name='hwscFileTransactionSvc.FileTransactionResponse.status',
+      name='status', full_name='file.FileTransactionResponse.status',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=144,
-  serialized_end=225,
+  serialized_start=193,
+  serialized_end=274,
 )
 
 
 _CHUNK = _descriptor.Descriptor(
   name='Chunk',
-  full_name='hwscFileTransactionSvc.Chunk',
+  full_name='file.Chunk',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='buffer', full_name='hwscFileTransactionSvc.Chunk.buffer', index=0,
-      number=1, type=12, cpp_type=9, label=1,
+      name='identification', full_name='file.Chunk.identification', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buffer', full_name='file.Chunk.buffer', index=1,
+      number=2, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='length', full_name='hwscFileTransactionSvc.Chunk.length', index=1,
-      number=2, type=3, cpp_type=2, label=1,
+      name='length', full_name='file.Chunk.length', index=2,
+      number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='file_name', full_name='hwscFileTransactionSvc.Chunk.file_name', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      name='file_name', full_name='file.Chunk.file_name', index=3,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='uuid', full_name='hwscFileTransactionSvc.Chunk.uuid', index=3,
-      number=4, type=9, cpp_type=9, label=1,
+      name='uuid', full_name='file.Chunk.uuid', index=4,
+      number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -172,28 +188,33 @@ _CHUNK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='test_oneof', full_name='hwscFileTransactionSvc.Chunk.test_oneof',
+      name='is_one_of', full_name='file.Chunk.is_one_of',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=227,
-  serialized_end=321,
+  serialized_start=277,
+  serialized_end=417,
 )
 
+_FILETRANSACTIONREQUEST.fields_by_name['identification'].message_type = lib_dot_authority__pb2._IDENTIFICATION
 _FILETRANSACTIONRESPONSE.oneofs_by_name['status'].fields.append(
   _FILETRANSACTIONRESPONSE.fields_by_name['code'])
 _FILETRANSACTIONRESPONSE.fields_by_name['code'].containing_oneof = _FILETRANSACTIONRESPONSE.oneofs_by_name['status']
-_CHUNK.oneofs_by_name['test_oneof'].fields.append(
+_CHUNK.fields_by_name['identification'].message_type = lib_dot_authority__pb2._IDENTIFICATION
+_CHUNK.oneofs_by_name['is_one_of'].fields.append(
+  _CHUNK.fields_by_name['identification'])
+_CHUNK.fields_by_name['identification'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
+_CHUNK.oneofs_by_name['is_one_of'].fields.append(
   _CHUNK.fields_by_name['buffer'])
-_CHUNK.fields_by_name['buffer'].containing_oneof = _CHUNK.oneofs_by_name['test_oneof']
-_CHUNK.oneofs_by_name['test_oneof'].fields.append(
+_CHUNK.fields_by_name['buffer'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
+_CHUNK.oneofs_by_name['is_one_of'].fields.append(
   _CHUNK.fields_by_name['length'])
-_CHUNK.fields_by_name['length'].containing_oneof = _CHUNK.oneofs_by_name['test_oneof']
-_CHUNK.oneofs_by_name['test_oneof'].fields.append(
+_CHUNK.fields_by_name['length'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
+_CHUNK.oneofs_by_name['is_one_of'].fields.append(
   _CHUNK.fields_by_name['file_name'])
-_CHUNK.fields_by_name['file_name'].containing_oneof = _CHUNK.oneofs_by_name['test_oneof']
-_CHUNK.oneofs_by_name['test_oneof'].fields.append(
+_CHUNK.fields_by_name['file_name'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
+_CHUNK.oneofs_by_name['is_one_of'].fields.append(
   _CHUNK.fields_by_name['uuid'])
-_CHUNK.fields_by_name['uuid'].containing_oneof = _CHUNK.oneofs_by_name['test_oneof']
+_CHUNK.fields_by_name['uuid'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
 DESCRIPTOR.message_types_by_name['FileTransactionRequest'] = _FILETRANSACTIONREQUEST
 DESCRIPTOR.message_types_by_name['FileTransactionResponse'] = _FILETRANSACTIONRESPONSE
 DESCRIPTOR.message_types_by_name['Chunk'] = _CHUNK
@@ -202,38 +223,39 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 FileTransactionRequest = _reflection.GeneratedProtocolMessageType('FileTransactionRequest', (_message.Message,), dict(
   DESCRIPTOR = _FILETRANSACTIONREQUEST,
   __module__ = 'hwsc_file_transaction_svc_pb2'
-  # @@protoc_insertion_point(class_scope:hwscFileTransactionSvc.FileTransactionRequest)
+  # @@protoc_insertion_point(class_scope:file.FileTransactionRequest)
   ))
 _sym_db.RegisterMessage(FileTransactionRequest)
 
 FileTransactionResponse = _reflection.GeneratedProtocolMessageType('FileTransactionResponse', (_message.Message,), dict(
   DESCRIPTOR = _FILETRANSACTIONRESPONSE,
   __module__ = 'hwsc_file_transaction_svc_pb2'
-  # @@protoc_insertion_point(class_scope:hwscFileTransactionSvc.FileTransactionResponse)
+  # @@protoc_insertion_point(class_scope:file.FileTransactionResponse)
   ))
 _sym_db.RegisterMessage(FileTransactionResponse)
 
 Chunk = _reflection.GeneratedProtocolMessageType('Chunk', (_message.Message,), dict(
   DESCRIPTOR = _CHUNK,
   __module__ = 'hwsc_file_transaction_svc_pb2'
-  # @@protoc_insertion_point(class_scope:hwscFileTransactionSvc.Chunk)
+  # @@protoc_insertion_point(class_scope:file.Chunk)
   ))
 _sym_db.RegisterMessage(Chunk)
 
 
+DESCRIPTOR._options = None
 
 _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   name='FileTransactionService',
-  full_name='hwscFileTransactionSvc.FileTransactionService',
+  full_name='file.FileTransactionService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=324,
-  serialized_end=783,
+  serialized_start=420,
+  serialized_end=735,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetStatus',
-    full_name='hwscFileTransactionSvc.FileTransactionService.GetStatus',
+    full_name='file.FileTransactionService.GetStatus',
     index=0,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
@@ -242,7 +264,7 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UploadFile',
-    full_name='hwscFileTransactionSvc.FileTransactionService.UploadFile',
+    full_name='file.FileTransactionService.UploadFile',
     index=1,
     containing_service=None,
     input_type=_CHUNK,
@@ -251,7 +273,7 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DownloadZippedFiles',
-    full_name='hwscFileTransactionSvc.FileTransactionService.DownloadZippedFiles',
+    full_name='file.FileTransactionService.DownloadZippedFiles',
     index=2,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
@@ -260,7 +282,7 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CreateUserFolder',
-    full_name='hwscFileTransactionSvc.FileTransactionService.CreateUserFolder',
+    full_name='file.FileTransactionService.CreateUserFolder',
     index=3,
     containing_service=None,
     input_type=_FILETRANSACTIONREQUEST,
