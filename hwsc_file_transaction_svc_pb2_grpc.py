@@ -15,22 +15,22 @@ class FileTransactionServiceStub(object):
       channel: A grpc.Channel.
     """
     self.GetStatus = channel.unary_unary(
-        '/hwscFileTransactionSvc.FileTransactionService/GetStatus',
+        '/file.FileTransactionService/GetStatus',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
     self.UploadFile = channel.stream_unary(
-        '/hwscFileTransactionSvc.FileTransactionService/UploadFile',
+        '/file.FileTransactionService/UploadFile',
         request_serializer=hwsc__file__transaction__svc__pb2.Chunk.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
     self.DownloadZippedFiles = channel.unary_stream(
-        '/hwscFileTransactionSvc.FileTransactionService/DownloadZippedFiles',
+        '/file.FileTransactionService/DownloadZippedFiles',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.Chunk.FromString,
         )
     self.CreateUserFolder = channel.unary_unary(
-        '/hwscFileTransactionSvc.FileTransactionService/CreateUserFolder',
+        '/file.FileTransactionService/CreateUserFolder',
         request_serializer=hwsc__file__transaction__svc__pb2.FileTransactionRequest.SerializeToString,
         response_deserializer=hwsc__file__transaction__svc__pb2.FileTransactionResponse.FromString,
         )
@@ -93,5 +93,5 @@ def add_FileTransactionServiceServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'hwscFileTransactionSvc.FileTransactionService', rpc_method_handlers)
+      'file.FileTransactionService', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

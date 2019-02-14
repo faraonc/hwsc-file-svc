@@ -51,16 +51,16 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
                 d = utility.get_property(request_iterator)
 
-                type = utility.get_file_type(d["f_name"])
+                file_type = utility.get_file_type(d["f_name"])
                 print("print file name")
-                print(type)
+                print(file_type)
 
                 is_uuid_valid = utility.verify_uuid(d["uuid"])
                 print("print is valid uuid")
                 print(is_uuid_valid)
 
                 if is_uuid_valid:
-                    has_folder = utility.find_folder(d["uuid"], type)
+                    has_folder = utility.find_folder(d["uuid"], file_type)
 
                     print("print has_folder")
                     print(has_folder)
