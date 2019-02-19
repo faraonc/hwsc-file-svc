@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/hwsc-org/hwsc-api-blocks/lib";
+
+package lib;
+
+// Secret is used for hashing.
+message Secret {
+    string key = 1;
+    int64 created_timestamp = 2;
+    int64 expiration_timestamp = 3;
+}
+
+// Identification is used for communicating between services.
+message Identification {
+    string token = 1;
+    Secret secret = 2;
+}
