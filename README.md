@@ -45,8 +45,8 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
 # How to install dependencies
-- To install for development: Type `$pipenv install -dev`
-- To install for delivering services in a container: `$pipenv install`
+- To install for development: Type `$ pipenv install -dev`
+- To install for delivering services in a container: `$ pipenv install`
 
 # Useful commands for dependencies
 - `$ pipenv install -dev` (Put dependency in `dev-packages` in `Pipfile`)
