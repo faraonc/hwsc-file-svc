@@ -58,10 +58,10 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - Type `$ pipenv run python3 main.py`. 
 
 # How to test and report test 
-- Type `$pipenv run pytest -v` for testing to see which cases are passed or failed
-- Type `$pipenv run pytest --cov=.` to visualize coverage in console
-- Type `$pipenv run pytest --cov=. --cov-report=html` to report the coverage in html file
+- Type `$ pipenv run pytest -v` for testing to see which cases are passed or failed
+- Type `$ pipenv run pytest --cov=.` to visualize coverage in console
+- Type `$ pipenv run pytest --cov=. --cov-report=html` to report the coverage in html file
 
 # Where is test report generated
-- After the command `$pipenv run pytest --cov=. --cov-report=html`, it will create htmlcov directory
+- After the command `$ pipenv run pytest --cov=. --cov-report=html`, it will create htmlcov directory
 - The test report html files are located in the directory
