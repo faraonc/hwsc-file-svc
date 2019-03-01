@@ -20,6 +20,10 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
     def get_state():
         return FileTransactionService.__state
 
+    @staticmethod
+    def set_state(new_state):
+        FileTransactionService.__state = new_state
+
     def __init__(self):
 
         class Servicer(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
