@@ -2,9 +2,9 @@ import grpc
 import pytest
 import service
 from hwsc_file_transaction_svc_pb2 import FileTransactionRequest
-from hwsc_file_transaction_svc_pb2 import FileTransactionResponse
 
 
+# TODO refactor
 class FakeRpcError(RuntimeError, grpc.RpcError):
     """Fake RPC error for testing"""
 
@@ -19,6 +19,7 @@ class FakeRpcError(RuntimeError, grpc.RpcError):
         return self._details
 
 
+# TODO refactor
 class FakeContext(object):
     """Fake context for testing"""
 
