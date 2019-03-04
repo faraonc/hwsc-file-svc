@@ -2,7 +2,7 @@ import grpc
 import hwsc_file_transaction_svc_pb2_grpc
 from concurrent import futures
 from enum import Enum
-from file_transaction_service import FileTransactionService
+from service.file_transaction_service import FileTransactionService
 
 
 class State(Enum):

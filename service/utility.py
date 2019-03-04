@@ -1,27 +1,23 @@
-from concurrent import futures
 from azure.storage.blob import BlockBlobService, PublicAccess
-import os,uuid,sys
 import io
-import grpc
-import time
-import os.path
 import re
 import config
 import hwsc_file_transaction_svc_pb2
-import hwsc_file_transaction_svc_pb2_grpc
 
 CHUNK_SIZE = 1024 * 1024
 block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"],
-                                          account_key=config.CONFIG["storage_key"])
+                                      account_key=config.CONFIG["storage_key"])
+
 
 def download_chunk(file):
-     """Download a file in chunks."""
-     with open(file, "rb")as f:
-         while True:
-             chunk = f.read(CHUNK_SIZE)
-             if len(chunk) == 0:
-                 return
-             yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
+    """Download a file in chunks."""
+    with open(file, "rb")as f:
+        while True:
+            chunk = f.read(CHUNK_SIZE)
+            if len(chunk) == 0:
+                return
+            yield hwsc_file_transaction_svc_pb2.chunk(buffer=chunk)
+
 
 def get_file_type(file_name):
     """Check and return correct type of the file passed in."""
@@ -42,10 +38,11 @@ def get_file_type(file_name):
 
     return file_type
 
+
 def upload_file_to_azure(stream, has_folder, uuid, file_name):
     """Upload file to azure blob storage."""
-    #TODO
-    #ADD try-catch block
+    # TODO
+    # ADD try-catch block
 
     # Checking whether the blobs that associated with uuid exists
     if has_folder:
@@ -55,8 +52,8 @@ def upload_file_to_azure(stream, has_folder, uuid, file_name):
         # Set the permission so the blobs are public.
         block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
 
-        #stream = io.BytesIO()
-        #for chunk in buffer:
+        # stream = io.BytesIO()
+        # for chunk in buffer:
         #    stream.write(chunk.buffer)
 
         stream.seek(0)
@@ -70,6 +67,7 @@ def upload_file_to_azure(stream, has_folder, uuid, file_name):
 
     else:
         return ""
+
 
 def create_uuid_container_in_azure(count, uuid):
     """Create uuid folder in the azure blob storage."""
@@ -92,6 +90,7 @@ def create_uuid_container_in_azure(count, uuid):
         print("[Utility]Successful to create folders.")
         return False
 
+
 def verify_uuid(id):
     """Verify uuid and checks it matches correct format."""
     uuid_regex = re.compile(r'^[a-zA-Z0-9]{26}$')
@@ -100,6 +99,7 @@ def verify_uuid(id):
         return True
     else:
         return False
+
 
 def find_folder(uuid, f_name):
     """Find folder in the azure blob storage."""
@@ -110,6 +110,7 @@ def find_folder(uuid, f_name):
     else:
         return False
 
+
 def count_folders(uuid):
     """Count folders in azure blob storage."""
     list_generator = block_blob_service.list_containers(uuid)
@@ -119,6 +120,7 @@ def count_folders(uuid):
         folder_count = folder_count + 1
 
     return folder_count
+
 
 def get_property(request_iterator):
     """Store and return properties of filename, uuid, and buffer."""

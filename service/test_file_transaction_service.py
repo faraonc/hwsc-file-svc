@@ -1,8 +1,8 @@
 import grpc
 import pytest
-import server
-from fake import FakeContext
-from file_transaction_service import FileTransactionService
+from service import server
+from service.fake import FakeContext
+from service.file_transaction_service import FileTransactionService
 from hwsc_file_transaction_svc_pb2 import FileTransactionRequest
 
 
