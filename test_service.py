@@ -38,12 +38,12 @@ class FakeContext(object):
                              (service.State.AVAILABLE,
                               {"code": grpc.StatusCode.OK.value[0],
                                "message": grpc.StatusCode.OK.name},
-                              "test for AVAILABLE"),
+                              "test for state AVAILABLE"),
 
                              (service.State.UNAVAILABLE,
                               {"code": grpc.StatusCode.UNAVAILABLE.value[0],
                                "message": grpc.StatusCode.UNAVAILABLE.name},
-                              "testfor UNAVAILABLE"),
+                              "test for state UNAVAILABLE"),
                          ]
                          )
 def test_GetStatus(input, expected_output, desc):

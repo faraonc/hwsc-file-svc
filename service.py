@@ -10,13 +10,13 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
     """A FileTransactionService class contains services for handling file transactions."""
 
     def __init__(self, server):
-        self.server = server
+        self.__server = server
 
     def GetStatus(self, request, context):
         """Return the status of the service"""
         print("[INFO] Requesting GetStatus service")
 
-        if self.server.get_state() != State.AVAILABLE:
+        if self.__server.get_state() != State.AVAILABLE:
             context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
             context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
