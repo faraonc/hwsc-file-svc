@@ -5,29 +5,25 @@ from hwsc_file_transaction_svc_pb2 import FileTransactionRequest
 @pytest.fixture(scope="module")
 def grpc_add_to_server():
     from hwsc_file_transaction_svc_pb2_grpc import add_FileTransactionServiceServicer_to_server
-
     return add_FileTransactionServiceServicer_to_server
 
 
 @pytest.fixture(scope="module")
 def grpc_servicer():
     from service import FileTransactionService
-
     return FileTransactionService()
 
 
 @pytest.fixture(scope="module")
 def grpc_stub_cls(grpc_channel):
     from hwsc_file_transaction_svc_pb2_grpc import FileTransactionServiceStub
-
     return FileTransactionServiceStub
 
 
 def test_GetStatus(grpc_stub):
     request = FileTransactionRequest()
-    print("request =", request)
     response = grpc_stub.GetStatus(request)
-    print(response)
+    print("response = ", response)
     assert response == 1
 
 
