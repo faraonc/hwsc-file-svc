@@ -1,9 +1,8 @@
 import grpc
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
+import server
 import utility
-from enum import Enum
-from concurrent import futures
 
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
@@ -16,7 +15,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
         """Return the status of the service"""
         print("[INFO] Requesting GetStatus service")
 
-        if self.__server.get_state() != State.AVAILABLE:
+        if self.__server.get_state() != server.State.AVAILABLE:
             context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
             context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
@@ -103,35 +102,3 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
         """Download zipped files from azrue blob storage."""
         if request_iterator.name:
             return utility.download_chunk(self.tmp_file_name)
-
-
-class State(Enum):
-    """A current state class of file transaction service"""
-    AVAILABLE = 0
-    UNAVAILABLE = 1
-
-
-class Server:
-
-    def __init__(self):
-        self.__state = State.AVAILABLE
-
-    def get_state(self):
-        return self.__state
-
-    def set_state(self, new_state):
-        self.__state = new_state
-
-    def serve(self, port):
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(FileTransactionService(self),
-                                                                                        server)
-        server.add_insecure_port(f'[::]:{port}')
-        server.start()
-        print("[INFO] hwsc-file-transaction-svc initializing...")
-        print("[INFO] hwsc-file-transaction started at:", port)
-        try:
-            while True:
-                pass
-        except KeyboardInterrupt:
-            server.stop(0)

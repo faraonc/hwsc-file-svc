@@ -1,5 +1,5 @@
-import service
 import config
+import server
 
 if __name__ == '__main__':
-    service.Server().serve(config.CONFIG['port'])
+    server.Server().serve(config.CONFIG['port'])
