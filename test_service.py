@@ -1,39 +1,57 @@
+import grpc
 import pytest
+import service
 from hwsc_file_transaction_svc_pb2 import FileTransactionRequest
+from hwsc_file_transaction_svc_pb2 import FileTransactionResponse
 
 
-@pytest.fixture(scope="module")
-def grpc_add_to_server():
-    from hwsc_file_transaction_svc_pb2_grpc import add_FileTransactionServiceServicer_to_server
-    return add_FileTransactionServiceServicer_to_server
+class FakeRpcError(RuntimeError, grpc.RpcError):
+    """Fake RPC error for testing"""
+
+    def __init__(self, code, details):
+        self._code = code
+        self._details = details
+
+    def code(self):
+        return self._code
+
+    def details(self):
+        return self._details
 
 
-@pytest.fixture(scope="module")
-def grpc_servicer():
-    from service import FileTransactionService
-    return FileTransactionService()
+class FakeContext(object):
+    """Fake context for testing"""
+
+    def __init__(self):
+        self._invocation_metadata = []
+
+    def abort(self, code, details):
+        raise FakeRpcError(code, details)
+
+    def invocation_metadata(self):
+        return self._invocation_metadata
 
 
-@pytest.fixture(scope="module")
-def grpc_stub_cls(grpc_channel):
-    from hwsc_file_transaction_svc_pb2_grpc import FileTransactionServiceStub
-    return FileTransactionServiceStub
+@pytest.mark.parametrize("input, expected_output, desc",
+                         [
+                             (service.State.AVAILABLE,
+                              {"code": grpc.StatusCode.OK.value[0],
+                               "message": grpc.StatusCode.OK.name},
+                              "test for AVAILABLE"),
 
-
-def test_GetStatus(grpc_stub):
+                             (service.State.UNAVAILABLE,
+                              {"code": grpc.StatusCode.UNAVAILABLE.value[0],
+                               "message": grpc.StatusCode.UNAVAILABLE.name},
+                              "testfor UNAVAILABLE"),
+                         ]
+                         )
+def test_GetStatus(input, expected_output, desc):
+    server = service.Server()
+    server.set_state(input)
+    file_trans_svc = service.FileTransactionService(server)
     request = FileTransactionRequest()
-    response = grpc_stub.GetStatus(request)
-    print("response = ", response)
-    assert response == 1
+    context = FakeContext()
 
-
-# @pytest.mark.parametrize("input, expected_output, desc",
-#                          [
-#                             (service.State.AVAILABLE, {"code": 0, "msg": "OK"}, "test for AVAILABLE"),
-#                             (service.State.UNAVAILABLE, {"code": 0, "msg": "OK"}, "testfor UNAVAILABLE"),
-#                          ]
-#                          )
-# def test_GetStatus(input, expected_output):
-#     request = FileTransactionRequest
-#     response = grpc_servicer.
-#     assert actual_output == expected_output
+    response = file_trans_svc.GetStatus(request, context)
+    assert response.code == expected_output["code"]
+    assert response.message == expected_output["message"]
