@@ -13,6 +13,7 @@ pipenv = "*"
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
+pytest-grpc = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,9 +1,9 @@
-from concurrent import futures
 import grpc
 import utility
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
 from enum import Enum
+from concurrent import futures
 
 
 class State(Enum):
