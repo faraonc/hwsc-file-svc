@@ -1,8 +1,8 @@
-from azure.storage.blob import BlockBlobService, PublicAccess
 import io
 import re
 import config
 import hwsc_file_transaction_svc_pb2
+from azure.storage.blob import BlockBlobService, PublicAccess
 
 CHUNK_SIZE = 1024 * 1024
 block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"],
