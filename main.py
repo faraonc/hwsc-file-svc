@@ -1,5 +1,5 @@
-import service
 import config
+from service import server
 
 if __name__ == '__main__':
-    service.FileTransactionService().start(config.CONFIG['port'])
+    server.Server().serve(config.CONFIG['port'])
