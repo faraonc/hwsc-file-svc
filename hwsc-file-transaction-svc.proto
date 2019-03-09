@@ -4,7 +4,7 @@ option go_package = "github.com/hwsc-org/hwsc-api-blocks/int/hwsc-file-transacti
 
 package file;
 
-import "lib/authority.proto";
+import "int/lib/authority.proto";
 
 // The file transaction service definition
 service FileTransactionService {
