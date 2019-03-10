@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/hwsc-org/hwsc-api-blocks/int/lib";
+option go_package = "github.com/hwsc-org/hwsc-api-blocks/protobuf/lib";
 
 package lib;
 

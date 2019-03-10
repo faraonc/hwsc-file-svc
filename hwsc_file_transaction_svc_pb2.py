@@ -12,17 +12,17 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from int.lib import authority_pb2 as int_dot_lib_dot_authority__pb2
+from protobuf.lib import authority_pb2 as protobuf_dot_lib_dot_authority__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='hwsc-file-transaction-svc.proto',
   package='file',
   syntax='proto3',
-  serialized_options=_b('ZFgithub.com/hwsc-org/hwsc-api-blocks/int/hwsc-file-transaction-svc/file'),
-  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x04\x66ile\x1a\x17int/lib/authority.proto\"\x80\x01\n\x16\x46ileTransactionRequest\x12+\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.Identification\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04uuid\x18\x04 \x01(\t\x12\x0c\n\x04urls\x18\x05 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"\x8c\x01\n\x05\x43hunk\x12-\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.IdentificationH\x00\x12\x10\n\x06\x62uffer\x18\x02 \x01(\x0cH\x00\x12\x10\n\x06length\x18\x03 \x01(\x03H\x00\x12\x13\n\tfile_name\x18\x04 \x01(\tH\x00\x12\x0e\n\x04uuid\x18\x05 \x01(\tH\x00\x42\x0b\n\tis_one_of2\xbb\x02\n\x16\x46ileTransactionService\x12J\n\tGetStatus\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x12<\n\nUploadFile\x12\x0b.file.Chunk\x1a\x1d.file.FileTransactionResponse\"\x00(\x01\x12\x44\n\x13\x44ownloadZippedFiles\x12\x1c.file.FileTransactionRequest\x1a\x0b.file.Chunk\"\x00\x30\x01\x12Q\n\x10\x43reateUserFolder\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x42HZFgithub.com/hwsc-org/hwsc-api-blocks/int/hwsc-file-transaction-svc/fileb\x06proto3')
+  serialized_options=_b('ZKgithub.com/hwsc-org/hwsc-api-blocks/protobuf/hwsc-file-transaction-svc/file'),
+  serialized_pb=_b('\n\x1fhwsc-file-transaction-svc.proto\x12\x04\x66ile\x1a\x1cprotobuf/lib/authority.proto\"\x80\x01\n\x16\x46ileTransactionRequest\x12+\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.Identification\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x0c\n\x04uuid\x18\x04 \x01(\t\x12\x0c\n\x04urls\x18\x05 \x03(\t\"Q\n\x17\x46ileTransactionResponse\x12\x0e\n\x04\x63ode\x18\x01 \x01(\rH\x00\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0b\n\x03url\x18\x03 \x01(\tB\x08\n\x06status\"\x8c\x01\n\x05\x43hunk\x12-\n\x0eidentification\x18\x01 \x01(\x0b\x32\x13.lib.IdentificationH\x00\x12\x10\n\x06\x62uffer\x18\x02 \x01(\x0cH\x00\x12\x10\n\x06length\x18\x03 \x01(\x03H\x00\x12\x13\n\tfile_name\x18\x04 \x01(\tH\x00\x12\x0e\n\x04uuid\x18\x05 \x01(\tH\x00\x42\x0b\n\tis_one_of2\xbb\x02\n\x16\x46ileTransactionService\x12J\n\tGetStatus\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x12<\n\nUploadFile\x12\x0b.file.Chunk\x1a\x1d.file.FileTransactionResponse\"\x00(\x01\x12\x44\n\x13\x44ownloadZippedFiles\x12\x1c.file.FileTransactionRequest\x1a\x0b.file.Chunk\"\x00\x30\x01\x12Q\n\x10\x43reateUserFolder\x12\x1c.file.FileTransactionRequest\x1a\x1d.file.FileTransactionResponse\"\x00\x42MZKgithub.com/hwsc-org/hwsc-api-blocks/protobuf/hwsc-file-transaction-svc/fileb\x06proto3')
   ,
-  dependencies=[int_dot_lib_dot_authority__pb2.DESCRIPTOR,])
+  dependencies=[protobuf_dot_lib_dot_authority__pb2.DESCRIPTOR,])
 
 
 
@@ -81,8 +81,8 @@ _FILETRANSACTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=67,
-  serialized_end=195,
+  serialized_start=72,
+  serialized_end=200,
 )
 
 
@@ -129,8 +129,8 @@ _FILETRANSACTIONRESPONSE = _descriptor.Descriptor(
       name='status', full_name='file.FileTransactionResponse.status',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=197,
-  serialized_end=278,
+  serialized_start=202,
+  serialized_end=283,
 )
 
 
@@ -191,15 +191,15 @@ _CHUNK = _descriptor.Descriptor(
       name='is_one_of', full_name='file.Chunk.is_one_of',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=281,
-  serialized_end=421,
+  serialized_start=286,
+  serialized_end=426,
 )
 
-_FILETRANSACTIONREQUEST.fields_by_name['identification'].message_type = int_dot_lib_dot_authority__pb2._IDENTIFICATION
+_FILETRANSACTIONREQUEST.fields_by_name['identification'].message_type = protobuf_dot_lib_dot_authority__pb2._IDENTIFICATION
 _FILETRANSACTIONRESPONSE.oneofs_by_name['status'].fields.append(
   _FILETRANSACTIONRESPONSE.fields_by_name['code'])
 _FILETRANSACTIONRESPONSE.fields_by_name['code'].containing_oneof = _FILETRANSACTIONRESPONSE.oneofs_by_name['status']
-_CHUNK.fields_by_name['identification'].message_type = int_dot_lib_dot_authority__pb2._IDENTIFICATION
+_CHUNK.fields_by_name['identification'].message_type = protobuf_dot_lib_dot_authority__pb2._IDENTIFICATION
 _CHUNK.oneofs_by_name['is_one_of'].fields.append(
   _CHUNK.fields_by_name['identification'])
 _CHUNK.fields_by_name['identification'].containing_oneof = _CHUNK.oneofs_by_name['is_one_of']
@@ -250,8 +250,8 @@ _FILETRANSACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=424,
-  serialized_end=739,
+  serialized_start=429,
+  serialized_end=744,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetStatus',
