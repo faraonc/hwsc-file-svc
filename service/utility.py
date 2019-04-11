@@ -5,9 +5,7 @@ import hwsc_file_transaction_svc_pb2
 from azure.storage.blob import BlockBlobService, PublicAccess
 
 CHUNK_SIZE = 1024 * 1024
-block_blob_service = BlockBlobService(account_name=config.CONFIG["storage"],
-                                      account_key=config.CONFIG["storage_key"],
-                                      connection_string="BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;")
+block_blob_service = BlockBlobService(connection_string=config.CONFIG["blob_storage"])
 
 
 def download_chunk(file):
