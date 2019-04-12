@@ -3,6 +3,7 @@ import re
 import config
 import hwsc_file_transaction_svc_pb2
 from azure.storage.blob import BlockBlobService, PublicAccess
+import time
 
 CHUNK_SIZE = 1024 * 1024
 block_blob_service = BlockBlobService(connection_string=config.CONFIG["blob_storage"])
@@ -138,3 +139,10 @@ def get_property(request_iterator):
 
         d["stream"] = stream
     return d
+
+
+def is_expired(timestamp):
+    """Determine if a given timestamp has expired"""
+    if timestamp <= 0 or time.time() >= timestamp:
+        return True
+    return False
