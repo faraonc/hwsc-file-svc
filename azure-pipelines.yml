@@ -18,7 +18,7 @@ steps:
 
 - script: |
     wget https://bootstrap.pypa.io/get-pip.py
-    python 3.7 get-pip.py
+    python3.7 get-pip.py
   displayName: 'Install dependencies'
 
 - script: |
