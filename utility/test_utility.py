@@ -1,5 +1,5 @@
 import pytest
-from service import utility
+from utility import utility
 
 
 @pytest.mark.parametrize("input, expected_output",

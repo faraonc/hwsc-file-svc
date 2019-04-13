@@ -1,7 +1,8 @@
 import grpc
 import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
-from service import server, utility
+from service import server
+from utility import utility
 
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
