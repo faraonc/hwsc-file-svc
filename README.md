@@ -32,7 +32,7 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 
 ## How to install pipenv with Homebrew
 - If you installed python3.7 with Homebrew, you would have pip installed already
-- On the terminal, type `$ pip install --user pipenv` 
+- On the terminal, type `$ pip install pipenv` 
 
 ## How to manage dependency of proto files
 -Type `$./generate_dep.sh`. This will create copied proto files from the github urls.
@@ -45,7 +45,7 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 - `Pipfile.lock`: enables deterministic builds by specifying the exact requirements for reproducing an environment
 
 # How to install dependencies
-- To install for development: Type `$ pipenv install -dev`
+- To install for development: Type `$ pipenv install --dev`
 - To install for delivering services in a container: `$ pipenv install`
 
 # Useful commands for dependencies
