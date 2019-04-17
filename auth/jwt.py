@@ -1,7 +1,11 @@
 import base64
 import json
 import traceback
+import hmac
+import hashlib
+import binascii
 from enum import IntEnum
+from utility import utility
 
 
 class AlgEnum(IntEnum):
@@ -71,15 +75,21 @@ def validate_header(header_dict):
         raise ValueError("invalid TokenTyp")
 
 
-# TODO: verify UUID
-# TODO: verify ExpirationTimestamp
 def validate_body(body_dict):
     if not body_dict:
         raise ValueError("body dict is None")
 
-    permission = header_dict["Permission"]
+    uuid = body_dict["UUID"]
+    if not utility.verify_uuid(uuid):
+        raise ValueError("UUID not valid")
+
+    permission = body_dict["Permission"]
     if permission <= PermissionEnum.MIN or permission >= PermissionEnum.MAX:
         raise ValueError("invalid permission")
+
+    expiration_timestamp = body_dict["ExpirationTimestamp"]
+    if utility.is_expired(expiration_timestamp):
+        raise ValueError("ExpirationTimestamp not valid")
 
 
 def validate_permission_with_alg(permission, alg):
@@ -87,61 +97,19 @@ def validate_permission_with_alg(permission, alg):
         raise ValueError("admin permission not valid")
 
 
-    # header_elements = [x.strip() for x in header_value.split(',')]
-    #
-    # alg = [x.strip() for x in header_elements[0].split(':')]
-    # alg_value = alg[1]
-    #
-    # TokenTyp = [x.strip() for x in header_elements[1].split(':')]
-    # TokenTyp_value = TokenTyp[1]
-    #
-    # print("Algorithm value is : " + alg_value)
-    # print("Token Type is : " + TokenTyp_value)
-    #
-    # return TokenTyp, TokenTyp_value
-
-    # print(header_elements[0])
-    # print(header_elements[1])
-    # print(len(header_elements))
-#
-# else:
-#     print("Invalid Token!")
+def validate_signature(header_body_token, secret_key):
+    # print(header_body_token)
+    # print(secret_key)
+    # byte_key = binascii.b2a_hex(secret_key)
+    signature_hs_512 = hmac.new(secret_key.encode(), header_body_token.encode(), hashlib.sha512).hexdigest()
+    print(signature_hs_512)
 
 
-# def get_body():
-#     result = get_element(token)
-#     body = result[1]
-#
-#     if (result != ""):
-#         for x in range(0, (116 - len(body))):
-#             body += "=";
-#
-#         body_value = (base64.b64decode(body)).decode()
-#         print("Body is : " + body_value)
-#
-#     else:
-#         print("Invalid Token!")
-#
-#
-# def get_signature():
-#     result = get_element(token)
-#     if (result != ""):
-#         signature = result[2]
-#         print("Signature is : " + signature)
-#
-#     else:
-#         print("Invalid Token!")
-
-
-if __name__ == "__main__":
+# if __name__ == "__main__":
+def test():
     token = "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ.8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg=="
+    secret_key = "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow="
 
-    # a, b = get_header()
-    # print(a)
-    # print("b : " + b)
-
-    # get_body()
-    # get_signature()
     try:
         validate_token_len(token)
         token_list = token.strip().split('.')
@@ -149,6 +117,9 @@ if __name__ == "__main__":
         validate_header(header_dict)
         body_dict = get_decoded_body(token_list[1])
         validate_body(body_dict)
+        header_body_token = token_list[0] + "." + token_list[1]
+        validate_signature(header_body_token, secret_key)
+        print(token_list[2])
 
 
     except ValueError as err:
