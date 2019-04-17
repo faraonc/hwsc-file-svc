@@ -97,6 +97,7 @@ def validate_permission_with_alg(permission, alg):
         raise ValueError("admin permission not valid")
 
 
+# TODO
 def validate_signature(header_body_token, secret_key):
     # print(header_body_token)
     # print(secret_key)
