@@ -23,6 +23,7 @@ def error(*args):
 
 
 def exception(*args):
+    """Will print with [ERROR] level and include stack trace"""
     logging.exception(" ".join(args))
 
 
