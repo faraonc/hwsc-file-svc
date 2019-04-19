@@ -3,6 +3,7 @@ import hwsc_file_transaction_svc_pb2
 import hwsc_file_transaction_svc_pb2_grpc
 from service import server
 from utility import utility
+from logger import logger
 
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
@@ -13,7 +14,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
     def GetStatus(self, request, context):
         """Return the status of the service"""
-        print("[INFO] Requesting GetStatus service")
+        logger.request_service("GetStatus")
 
         if self.__server.get_state() != server.State.AVAILABLE:
             context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
@@ -30,23 +31,20 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
     def UploadFile(self, request_iterator, context):
         """Upload a file to the azure blob storage."""
-        print("[INFO] Requesting UploadFile service")
+        logger.request_service("UploadFile")
 
         d = utility.get_property(request_iterator)
 
         file_type = utility.get_file_type(d["f_name"])
-        print("print file name")
-        print(file_type)
+        logger.info("file type:", file_type)
 
         is_uuid_valid = utility.verify_uuid(d["uuid"])
-        print("print is valid uuid")
-        print(is_uuid_valid)
+        logger.info("valid uuid:", is_uuid_valid)
 
         if is_uuid_valid:
             has_folder = utility.find_folder(d["uuid"], file_type)
 
-            print("print has_folder")
-            print(has_folder)
+            logger.info("has folder:", has_folder)
 
             get_url = utility.upload_file_to_azure(d["stream"], has_folder, d["uuid"], d["f_name"])
 
@@ -71,14 +69,13 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
 
     def CreateUserFolder(self, request, context):
         """Create user folder in the azure blob storage."""
-        print("[INFO] Requesting CreateUuidFolder service")
+        logger.request_service("CreateUserFolder")
 
         is_uuid_valid = utility.verify_uuid(request.uuid)
 
         if is_uuid_valid:
             count = utility.count_folders(request.uuid)
-            print("print count")
-            print(count)
+            logger.info("count:", count)
             created = utility.create_uuid_container_in_azure(count, request.uuid)
 
             if created:

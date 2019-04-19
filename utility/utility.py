@@ -3,6 +3,7 @@ import re
 import config
 import hwsc_file_transaction_svc_pb2
 from azure.storage.blob import BlockBlobService, PublicAccess
+from logger import logger
 import time
 
 CHUNK_SIZE = 1024 * 1024
@@ -59,7 +60,7 @@ def upload_file_to_azure(stream, has_folder, uuid, file_name):
         stream.seek(0)
 
         block_blob_service.create_blob_from_stream(container_name, file_name, stream)
-        print("[DEBUG]Uploading to folder with the file name:", file_name)
+        logger.debug("uploading to folder with the file name:", file_name)
 
         url_upload = block_blob_service.make_blob_url(container_name, file_name)
         print(url_upload)
@@ -83,11 +84,11 @@ def create_uuid_container_in_azure(count, uuid):
         block_blob_service.create_container(audios_container)
         block_blob_service.create_container(files_container)
         block_blob_service.create_container(videos_container)
-        print("[Utility]Successful to create folders.")
+        logger.debug("folder creation successful")
         return True
 
     else:
-        print("[Utility]Successful to create folders.")
+        logger.debug("folder creation unsuccessful")
         return False
 
 

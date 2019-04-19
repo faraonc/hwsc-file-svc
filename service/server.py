@@ -3,6 +3,7 @@ import hwsc_file_transaction_svc_pb2_grpc
 from concurrent import futures
 from enum import Enum
 from service.file_transaction_service import FileTransactionService
+from logger import logger
 
 
 class State(Enum):
@@ -31,8 +32,8 @@ class Server:
                                                                                         server)
         server.add_insecure_port(f'[::]:{port}')
         server.start()
-        print("[INFO] hwsc-file-transaction-svc initializing...")
-        print("[INFO] hwsc-file-transaction started at:", port)
+        logger.info("hwsc-file-transaction-svc initializing...")
+        logger.info("hwsc-file-transaction started at:", port)
         try:
             while True:
                 pass
