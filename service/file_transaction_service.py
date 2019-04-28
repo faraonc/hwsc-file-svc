@@ -17,13 +17,14 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
         logger.request_service("GetStatus")
 
         # Lock service state for reading
-        with self.__server.get_state_locker().lock.gen_rlock():
-            logger.info("Service State:", str(self.__server.get_state_locker().current_service_state))
+        with self.__server.get_state_locker().get_lock().gen_rlock():
+            logger.info("Service State:", str(self.__server.get_state_locker().get_current_service_state()))
 
-            context.set_code = grpc.StatusCode.OK.value[0]
-            context.set_details = grpc.StatusCode.OK.name
+            if self.__server.get_state_locker().get_current_service_state() == server.State.AVAILABLE:
+                context.set_code = grpc.StatusCode.OK.value[0]
+                context.set_details = grpc.StatusCode.OK.name
 
-            if self.__server.get_state_locker().current_service_state == server.State.UNAVAILABLE:
+            if self.__server.get_state_locker().get_current_service_state() == server.State.UNAVAILABLE:
                 context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
                 context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
@@ -31,7 +32,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             try:
                 utility.block_blob_service.get_blob_service_properties()
             except:
-                logger.error("failed to connect to Azure Blob Storage")
+                logger.exception("failed to connect to Azure Blob Storage")
                 context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
                 context.set_details = grpc.StatusCode.UNAVAILABLE.name
 

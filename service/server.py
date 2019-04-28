@@ -15,17 +15,24 @@ class State(Enum):
 
 class StateLocker:
     """Synchronizes the state of file_transaction_svc"""
-    lock = rwlock.RWLockWrite()
-    current_service_state = None
+    __lock = rwlock.RWLockWrite()
+    __current_service_state = None
 
-    def __init__(self):
-        self.current_service_state = State.AVAILABLE
+    def get_lock(self):
+        return self.__lock
+
+    def get_current_service_state(self):
+        return self.__current_service_state
+
+    def set_current_service_state(self, new_state):
+        self.__current_service_state = new_state
 
 
 class Server:
 
     def __init__(self):
         self.__state_locker = StateLocker()
+        self.set_state(State.AVAILABLE)
 
     # TODO test
     def get_state_locker(self):
@@ -33,7 +40,7 @@ class Server:
 
     # TODO test
     def set_state(self, new_state):
-        self.__state_locker.current_service_state = new_state
+        self.__state_locker.set_current_service_state(new_state)
 
     # TODO test
     def serve(self, port):
