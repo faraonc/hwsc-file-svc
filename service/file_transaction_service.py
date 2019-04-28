@@ -16,18 +16,29 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
         """Return the status of the service"""
         logger.request_service("GetStatus")
 
-        if self.__server.get_state() != server.State.AVAILABLE:
-            context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
-            context.set_details = grpc.StatusCode.UNAVAILABLE.name
+        # Lock service state for reading
+        with self.__server.get_state_locker().lock.gen_rlock():
+            logger.info("Service State:", str(self.__server.get_state_locker().current_service_state))
 
-        else:
             context.set_code = grpc.StatusCode.OK.value[0]
             context.set_details = grpc.StatusCode.OK.name
 
-        return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-            code=context.set_code,
-            message=context.set_details
-        )
+            if self.__server.get_state_locker().current_service_state == server.State.UNAVAILABLE:
+                context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
+                context.set_details = grpc.StatusCode.UNAVAILABLE.name
+
+            # Check connection to Azure Blob Storage
+            try:
+                utility.block_blob_service.get_blob_service_properties()
+            except:
+                logger.error("failed to connect to Azure Blob Storage")
+                context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
+                context.set_details = grpc.StatusCode.UNAVAILABLE.name
+
+            return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                code=context.set_code,
+                message=context.set_details
+            )
 
     def UploadFile(self, request_iterator, context):
         """Upload a file to the azure blob storage."""
