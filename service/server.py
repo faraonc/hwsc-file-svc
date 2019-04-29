@@ -4,6 +4,7 @@ from concurrent import futures
 from enum import Enum
 from service.file_transaction_service import FileTransactionService
 from logger import logger
+from readerwriterlock import rwlock
 
 
 class State(Enum):
@@ -12,18 +13,34 @@ class State(Enum):
     UNAVAILABLE = 1
 
 
+class StateLocker:
+    """Synchronizes the state of file_transaction_svc"""
+    __lock = rwlock.RWLockWrite()
+    __current_service_state = None
+
+    def get_lock(self):
+        return self.__lock
+
+    def get_current_service_state(self):
+        return self.__current_service_state
+
+    def set_current_service_state(self, new_state):
+        self.__current_service_state = new_state
+
+
 class Server:
 
     def __init__(self):
-        self.__state = State.AVAILABLE
+        self.__state_locker = StateLocker()
+        self.set_state(State.AVAILABLE)
 
     # TODO test
-    def get_state(self):
-        return self.__state
+    def get_state_locker(self):
+        return self.__state_locker
 
     # TODO test
     def set_state(self, new_state):
-        self.__state = new_state
+        self.__state_locker.set_current_service_state(new_state)
 
     # TODO test
     def serve(self, port):
