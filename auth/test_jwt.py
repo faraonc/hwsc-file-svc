@@ -27,7 +27,7 @@ def test_validate_token_len(input_token, expectation, description):
 def test_base64_decode(input_str, expect_output, expectation, description):
     with expectation:
         actual_output = jwt.base64_decode(input_str)
-        assert actual_output == expect_output
+        assert actual_output == expect_output, description
 
 
 @pytest.mark.parametrize("input_str, expect_output, description",
@@ -37,7 +37,7 @@ def test_base64_decode(input_str, expect_output, expectation, description):
                          )
 def test_get_decoded_header(input_str, expect_output, description):
     actual_output = jwt.get_decoded_header(input_str)
-    assert actual_output == expect_output
+    assert actual_output == expect_output, description
 
 
 @pytest.mark.parametrize("input_str, expect_output, description",
@@ -45,9 +45,9 @@ def test_get_decoded_header(input_str, expect_output, description):
                             ("eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ", {'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN, 'ExpirationTimestamp': 1893456000}, "test get decoded body"),
                          ]
                          )
-def test_get_decoed_body(input_str, expect_output, description):
+def test_get_decoded_body(input_str, expect_output, description):
     actual_output = jwt.get_decoded_body(input_str)
-    assert actual_output == expect_output
+    assert actual_output == expect_output, description
 
 
 @pytest.mark.parametrize("input_header_dict, expectation, description",
