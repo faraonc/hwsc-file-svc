@@ -33,8 +33,8 @@ class PermissionEnum(IntEnum):
 
 def validate_token_len(token_str):
     """Validate the length of the token_str
-    throws "token string is None" error if token_str is empty
-    throws "invalid token" error if token_str doesn't have 3 elements header.body.signature
+    throws ValueError if token_str is empty
+    throws ValueError if token_str doesn't have 3 elements header.body.signature
     """
 
     if not token_str:
@@ -47,7 +47,7 @@ def validate_token_len(token_str):
 
 def base64_decode(input_str):
     """Decoded a token string
-    throws "base64 decode input string is None" error if input_str is empty
+    throws ValueError if input_str is empty
     return a decoded dictionary for the valid input_str
     """
 
@@ -77,9 +77,9 @@ def get_decoded_body(body_str):
 
 def validate_header(header_dict):
     """Validate a header_dict
-    throws "header_dict is None" error if header_dict is empty
-    throws "invalid Alg" error if Alg <= -1 or >= 3
-    throws "invalid TokenTyp" error if TokenTyp <= -1 or >=3
+    throws ValueError if header_dict is empty
+    throws ValueError if Alg <= -1 or >= 3
+    throws ValueError if TokenTyp <= -1 or >=3
     """
 
     if not header_dict:
@@ -96,10 +96,10 @@ def validate_header(header_dict):
 
 def validate_body(body_dict):
     """Validate a body_dict
-   throws "body_dict is None" error if body_dict is empty
-   throws "UUID not valid" error for invalid UUID
-   throws "invalid permission" error if Permission <= -1 or >=4
-   throws "ExpirationTimestamp not valid" if ExpirationTimestamp is expired
+   throws ValueError if body_dict is empty
+   throws ValueError for invalid UUID
+   throws ValueError if Permission <= -1 or >=4
+   throws ValueError if ExpirationTimestamp is expired
    """
 
     if not body_dict:
@@ -120,7 +120,7 @@ def validate_body(body_dict):
 
 def validate_permission_with_alg(permission, alg):
     """Validate ADMIN permission with HS512 Alg
-    throws "admin permission not valid" error if the token is ADMIN permission but Alg is not HS512
+    throws ValueError if the token is ADMIN permission but Alg is not HS512
     """
 
     if permission == PermissionEnum.ADMIN and alg != AlgEnum.HS512:
@@ -129,7 +129,7 @@ def validate_permission_with_alg(permission, alg):
 
 def validate_permission_requirement(req_permission, token_permission):
     """Validate token_permission >= req_permission
-    throws "invalid permission requirement" error if req_permission > token_permission
+    throws ValueError if req_permission > token_permission
     """
 
     if req_permission > token_permission:
@@ -138,8 +138,8 @@ def validate_permission_requirement(req_permission, token_permission):
 
 def validate_signature(header_body_token, secret_key, header_dict, signature_token):
     """Rebuild and validate a signature
-    throws "invalid Alg" error if Alg is not HS256 or HS512
-    throws "invalid Signature" if the rebuild signature != signature_token
+    throws ValueError if Alg is not HS256 or HS512
+    throws ValueError if the rebuild signature != signature_token
     """
 
     if header_dict["Alg"] == AlgEnum.HS256:
