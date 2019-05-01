@@ -35,6 +35,7 @@ class PermissionEnum(IntEnum):
 def validate_token_len(token_str):
     if not token_str:
         raise ValueError("token string is None")
+
     result = token_str.strip().split('.')
     if len(result) != 3:
         raise ValueError("invalid token")
@@ -118,22 +119,15 @@ def validate_signature(header_body_token, secret_key, header_dict, signature_tok
 
 
 def validate(token_str, secret_key, req_permission):
-    try:
-        token_list = token_str.strip().split('.')
-        header_body_token = token_list[0] + "." + token_list[1]
-        signature_token = token_list[2]
+    token_list = token_str.strip().split('.')
+    header_body_token = token_list[0] + "." + token_list[1]
+    signature_token = token_list[2]
 
-        validate_token_len(token_str)
-        header_dict = get_decoded_header(token_list[0])
-        body_dict = get_decoded_body(token_list[1])
-        validate_header(header_dict)
-        validate_body(body_dict)
-        validate_signature(header_body_token, secret_key, header_dict, signature_token)
-        validate_permission_with_alg(body_dict["Permission"], header_dict["Alg"])
-        validate_permission_requirement(req_permission, body_dict["Permission"])
-
-    except ValueError as err:
-        traceback.print_exc()
-
-    except Exception as err:
-        traceback.print_exc()
+    validate_token_len(token_str)
+    header_dict = get_decoded_header(token_list[0])
+    body_dict = get_decoded_body(token_list[1])
+    validate_header(header_dict)
+    validate_body(body_dict)
+    validate_signature(header_body_token, secret_key, header_dict, signature_token)
+    validate_permission_with_alg(body_dict["Permission"], header_dict["Alg"])
+    validate_permission_requirement(req_permission, body_dict["Permission"])

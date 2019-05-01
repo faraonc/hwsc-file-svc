@@ -189,3 +189,24 @@ def test_validate_permission_requirement(req_permission, token_permission, expec
 def test_validate_signature(header_body_token, secret_key, header_dict, signature_token, expectation, description):
     with expectation:
         jwt.validate_signature(header_body_token, secret_key, header_dict, signature_token)
+
+
+@pytest.mark.parametrize("token_str, secret_key, req_permission, expectation, description",
+                         [
+                             (
+                                 "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ.8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg==",
+                                 "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
+                                 jwt.PermissionEnum.USER, does_not_raise(),
+                                 "test valid512JWTAdminTokenString with req_permission is USER"
+                             ),
+                             (
+                                 "eyJBbGciOjEsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ.xtOMEMbgD9YH0SDVChgSy6vykf9z-9eD0_pCK--uwQQ=",
+                                 "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
+                                 jwt.PermissionEnum.NO_PERMISSION, pytest.raises(ValueError),
+                                 "test invalid256JWTTokenString with req_permission is USER"
+                             ),
+                         ]
+                         )
+def test_validate(token_str, secret_key, req_permission, expectation, description):
+    with expectation:
+        jwt.validate(token_str, secret_key, req_permission)
