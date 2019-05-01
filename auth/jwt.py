@@ -1,6 +1,5 @@
 import base64
 import json
-import traceback
 import hmac
 import hashlib
 from enum import IntEnum
@@ -33,6 +32,11 @@ class PermissionEnum(IntEnum):
 
 
 def validate_token_len(token_str):
+    """Validate the length of the token_str
+    throws "token string is None" error if token_str is empty
+    throws "invalid token" error if token_str doesn't have 3 elements header.body.signature
+    """
+
     if not token_str:
         raise ValueError("token string is None")
 
@@ -42,6 +46,11 @@ def validate_token_len(token_str):
 
 
 def base64_decode(input_str):
+    """Decoded a token string
+    throws "base64 decode input string is None" error if input_str is empty
+    return a decoded dictionary for the valid input_str
+    """
+
     if not input_str:
         raise ValueError("base64 decode input string is None")
 
@@ -55,14 +64,24 @@ def base64_decode(input_str):
 
 
 def get_decoded_header(header_str):
+    """Get the decoded header_dict with the input header_str"""
+
     return base64_decode(header_str)
 
 
 def get_decoded_body(body_str):
+    """Get the decoded body_dict with the input body_str"""
+
     return base64_decode(body_str)
 
 
 def validate_header(header_dict):
+    """Validate a header_dict
+    throws "header_dict is None" error if header_dict is empty
+    throws "invalid Alg" error if Alg <= -1 or >= 3
+    throws "invalid TokenTyp" error if TokenTyp <= -1 or >=3
+    """
+
     if not header_dict:
         raise ValueError("header_dict is None")
 
@@ -76,6 +95,13 @@ def validate_header(header_dict):
 
 
 def validate_body(body_dict):
+    """Validate a body_dict
+   throws "body_dict is None" error if body_dict is empty
+   throws "UUID not valid" error for invalid UUID
+   throws "invalid permission" error if Permission <= -1 or >=4
+   throws "ExpirationTimestamp not valid" if ExpirationTimestamp is expired
+   """
+
     if not body_dict:
         raise ValueError("body_dict is None")
 
@@ -93,16 +119,29 @@ def validate_body(body_dict):
 
 
 def validate_permission_with_alg(permission, alg):
+    """Validate ADMIN permission with HS512 Alg
+    throws "admin permission not valid" error if the token is ADMIN permission but Alg is not HS512
+    """
+
     if permission == PermissionEnum.ADMIN and alg != AlgEnum.HS512:
         raise ValueError("admin permission not valid")
 
 
 def validate_permission_requirement(req_permission, token_permission):
+    """Validate token_permission >= req_permission
+    throws "invalid permission requirement" error if req_permission > token_permission
+    """
+
     if req_permission > token_permission:
         raise ValueError("invalid permission requirement")
 
 
 def validate_signature(header_body_token, secret_key, header_dict, signature_token):
+    """Rebuild and validate a signature
+    throws "invalid Alg" error if Alg is not HS256 or HS512
+    throws "invalid Signature" if the rebuild signature != signature_token
+    """
+
     if header_dict["Alg"] == AlgEnum.HS256:
         signature_rebuild = base64.urlsafe_b64encode(hmac.new(secret_key.encode(),
                                                               header_body_token.encode(),
@@ -119,15 +158,27 @@ def validate_signature(header_body_token, secret_key, header_dict, signature_tok
 
 
 def validate(token_str, secret_key, req_permission):
-    token_list = token_str.strip().split('.')
-    header_body_token = token_list[0] + "." + token_list[1]
-    signature_token = token_list[2]
+    """Validate a token with secret_key and req_permission"""
 
+    # split the token_str to get a list of header, body, signature
+    token_list = token_str.strip().split('.')
+    # get the header.body token from the token_list
+    header_body_token = token_list[0] + "." + token_list[1]
+    # get the signature of the token from the token_list
+    signature_token = token_list[2]
+    # validate if the token_str has 3 elements
     validate_token_len(token_str)
+    # decoded header token to get the header dictionary
     header_dict = get_decoded_header(token_list[0])
+    # decoded body token to get the body dictionary
     body_dict = get_decoded_body(token_list[1])
+    # validate header dictionary
     validate_header(header_dict)
+    # validate body dictionary
     validate_body(body_dict)
+    # validate the signature by rebuild from the header.body token and compared to the original signature
     validate_signature(header_body_token, secret_key, header_dict, signature_token)
+    # validate permission ADMIN and Alg HS512
     validate_permission_with_alg(body_dict["Permission"], header_dict["Alg"])
+    # Validate requirement permission with the token permission
     validate_permission_requirement(req_permission, body_dict["Permission"])
