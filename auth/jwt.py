@@ -46,7 +46,7 @@ def validate_token_len(token_str):
 
 
 def base64_decode(input_str):
-    """Decoded a token string
+    """Decode a token string
     throws ValueError if input_str is empty
     return a decoded dictionary for the valid input_str
     """
@@ -168,9 +168,9 @@ def validate(token_str, secret_key, req_permission):
     signature_token = token_list[2]
     # validate if the token_str has 3 elements
     validate_token_len(token_str)
-    # decoded header token to get the header dictionary
+    # decode header token to get the header dictionary
     header_dict = get_decoded_header(token_list[0])
-    # decoded body token to get the body dictionary
+    # decode body token to get the body dictionary
     body_dict = get_decoded_body(token_list[1])
     # validate header dictionary
     validate_header(header_dict)
