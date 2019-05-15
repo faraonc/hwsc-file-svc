@@ -36,44 +36,29 @@ def upload_file_to_azure(stream, has_folder, uuid, file_name):
         return ""
 
 
-def create_uuid_container_in_azure(count, uuid):
+def create_uuid_container_in_azure(uuid):
     """Create uuid folder in the azure blob storage."""
     # TODO
     # ADD try-catch block
-    if count == 0:
-        images_container = uuid + "-images"
-        audios_container = uuid + "-audios"
-        files_container = uuid + "-files"
-        videos_container = uuid + "-videos"
+    images_container = uuid + "-images"
+    audios_container = uuid + "-audios"
+    files_container = uuid + "-files"
+    videos_container = uuid + "-videos"
 
-        block_blob_service.create_container(images_container)
-        block_blob_service.create_container(audios_container)
-        block_blob_service.create_container(files_container)
-        block_blob_service.create_container(videos_container)
-        logger.debug("user folder creation successful")
-        return True
-
-    else:
-        logger.debug("user folder creation unsuccessful")
-        return False
+    block_blob_service.create_container(images_container)
+    block_blob_service.create_container(audios_container)
+    block_blob_service.create_container(files_container)
+    block_blob_service.create_container(videos_container)
+    logger.debug("user folder creation successful")
 
 
 def find_folder_in_azure(uuid, f_name):
     """Find folder in the azure blob storage."""
     container_name = uuid + '-' + f_name
-
-    if block_blob_service.exists(container_name):
-        return True
-    else:
-        return False
+    return block_blob_service.exists(container_name)
 
 
-def count_folders_in_azure(uuid):
+def user_folders_exist_in_azure(uuid):
     """Count folders in azure blob storage."""
     list_generator = block_blob_service.list_containers(uuid)
-
-    folder_count = 0
-    for c in list_generator:
-        folder_count = folder_count + 1
-
-    return folder_count
+    return len(list(list_generator)) != 0

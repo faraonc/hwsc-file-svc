@@ -5,7 +5,6 @@ from service import server
 from utility import utility
 from azure_client import azure_client
 from logger import logger
-from threading import Lock, Thread
 
 
 class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionServiceServicer):
@@ -33,8 +32,8 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             # Check connection to Azure Blob Storage
             try:
                 azure_client.block_blob_service.get_blob_service_properties()
-            except:
-                logger.exception("failed to connect to Azure Blob Storage")
+            except Exception as e:
+                logger.exception(str(e))
                 context.set_code = grpc.StatusCode.UNAVAILABLE.value[0]
                 context.set_details = grpc.StatusCode.UNAVAILABLE.name
 
@@ -88,33 +87,29 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
         is_uuid_valid = utility.verify_uuid(request.uuid)
 
         if is_uuid_valid:
-            # Make Lock for this uuid if it doesn't exist already
-            if request.uuid not in self.__server.get_uuid_locker():
-                self.__server.get_uuid_locker()[request.uuid] = Lock()
-
             # Lock this uuid
             self.__server.get_uuid_locker()[request.uuid].acquire()
 
             try:
-                count = azure_client.count_folders_in_azure(request.uuid)
-                logger.info("count:", str(count))
-                created = azure_client.create_uuid_container_in_azure(count, request.uuid)
-            except:
-                logger.exception("user folder creation unsuccessful")
+                if not azure_client.user_folders_exist_in_azure(request.uuid):
+                    azure_client.create_uuid_container_in_azure(request.uuid)
+                    context.set_code = grpc.StatusCode.OK.value[0]
+                    context.set_details = "user folder creation successful"
+                else:
+                    context.set_code = grpc.StatusCode.UNKNOWN.value[0]
+                    context.set_details = "user folder already exists"
+            except Exception as e:
+                logger.exception(str(e))
+                context.set_code = grpc.StatusCode.UNKNOWN.value[0]
+                context.set_details = "user folder creation unsuccessful"
             finally:
                 # Unlock this uuid
                 self.__server.get_uuid_locker()[request.uuid].release()
 
-            if created:
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                    code=grpc.StatusCode.OK.value[0],
-                    message="success"
-                )
-            else:
-                return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
-                    code=grpc.StatusCode.UNKNOWN.value[0],
-                    message="user folder already exist"
-                )
+            return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
+                code=context.set_code,
+                message=context.set_details
+            )
         else:
             return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                 code=grpc.StatusCode.UNKNOWN.value[0],

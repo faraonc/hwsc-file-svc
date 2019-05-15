@@ -39,7 +39,6 @@ def get_file_type(file_name):
 def verify_uuid(id):
     """Verify uuid and checks it matches correct format."""
     uuid_regex = re.compile(r'^[a-zA-Z0-9]{26}$')
-
     if uuid_regex.match(id):
         return True
     else:
@@ -67,6 +66,4 @@ def get_property(request_iterator):
 
 def is_expired(timestamp):
     """Determine if a given timestamp has expired"""
-    if timestamp <= 0 or time.time() >= timestamp:
-        return True
-    return False
+    return timestamp <= 0 or time.time() >= timestamp

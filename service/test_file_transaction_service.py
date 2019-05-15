@@ -54,7 +54,7 @@ def test_GetStatus(state_input, azure_input, expected_output, desc):
                          [
                              ("1234abcd5454efef8842ll3fsc",
                               {"code": grpc.StatusCode.UNKNOWN.value[0],
-                               "message": "user folder already exist"},
+                               "message": "user folder already exists"},
                               "test for preexisting folder"),
 
                              ("1234abcd5454efef8842ll3fs",
@@ -64,7 +64,7 @@ def test_GetStatus(state_input, azure_input, expected_output, desc):
 
                              ("1234abcd5454efef8842ll3fse",
                               {"code": grpc.StatusCode.OK.value[0],
-                               "message": "success"},
+                               "message": "user folder creation successful"},
                               "test for successful user folder creation"),
                          ]
                          )
