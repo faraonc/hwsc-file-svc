@@ -5,6 +5,8 @@ from enum import Enum
 from service.file_transaction_service import FileTransactionService
 from logger import logger
 from readerwriterlock import rwlock
+from collections import defaultdict
+from threading import Lock
 
 
 class State(Enum):
@@ -33,6 +35,7 @@ class Server:
     def __init__(self):
         self.__state_locker = StateLocker()
         self.set_state(State.AVAILABLE)
+        self.__uuid_locker = defaultdict(Lock)
 
     # TODO test
     def get_state_locker(self):
@@ -41,6 +44,9 @@ class Server:
     # TODO test
     def set_state(self, new_state):
         self.__state_locker.set_current_service_state(new_state)
+
+    def get_uuid_locker(self):
+        return self.__uuid_locker
 
     # TODO test
     def serve(self, port):
