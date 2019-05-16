@@ -53,7 +53,7 @@ class Server:
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         hwsc_file_transaction_svc_pb2_grpc.add_FileTransactionServiceServicer_to_server(FileTransactionService(self),
                                                                                         server)
-        server.add_insecure_port(f'[::]:{port}')
+        server.add_insecure_port(f"[::]:{port}")
         server.start()
         logger.info("hwsc-file-transaction-svc initializing...")
         logger.info("hwsc-file-transaction started at:", port)

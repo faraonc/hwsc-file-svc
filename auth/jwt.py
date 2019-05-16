@@ -40,7 +40,7 @@ def validate_token_len(token_str):
     if not token_str:
         raise ValueError("token string is None")
 
-    result = token_str.strip().split('.')
+    result = token_str.strip().split(".")
     if len(result) != 3:
         raise ValueError("invalid token")
 
@@ -161,7 +161,7 @@ def validate(token_str, secret_key, req_permission):
     """Validate a token with secret_key and req_permission"""
 
     # split the token_str to get a list of header, body, signature
-    token_list = token_str.strip().split('.')
+    token_list = token_str.strip().split(".")
     # get the header.body token from the token_list
     header_body_token = token_list[0] + "." + token_list[1]
     # get the signature of the token from the token_list

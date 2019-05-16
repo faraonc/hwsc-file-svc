@@ -14,7 +14,7 @@ def upload_file_to_azure(stream, has_folder, uuid, file_name):
     # Checking whether the blobs that associated with uuid exists
     if has_folder:
         container_type = utility.get_file_type(file_name)
-        container_name = uuid + '-' + container_type
+        container_name = uuid + "-" + container_type
 
         # Set the permission so the blobs are public.
         block_blob_service.set_container_acl(container_name, public_access=PublicAccess.Container)
@@ -54,7 +54,7 @@ def create_uuid_container_in_azure(uuid):
 
 def find_folder_in_azure(uuid, f_name):
     """Find folder in the azure blob storage."""
-    container_name = uuid + '-' + f_name
+    container_name = uuid + "-" + f_name
     return block_blob_service.exists(container_name)
 
 

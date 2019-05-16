@@ -26,12 +26,12 @@ def test_validate_token_len(input_token, expectation, description):
                          [
                              ("", {}, pytest.raises(ValueError), "test invalid input with empty input string"),
                              ("eyJBbGciOjIsIlRva2VuVHlwIjoxfQ",
-                              {'Alg': jwt.AlgEnum.HS512, 'TokenTyp': jwt.TokenTypEnum.JWT}, does_not_raise(),
+                              {"Alg": jwt.AlgEnum.HS512, "TokenTyp": jwt.TokenTypEnum.JWT}, does_not_raise(),
                               "test valid decoded header"),
                              (
                                      "eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
-                                     {'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN,
-                                      'ExpirationTimestamp': 1893456000}, does_not_raise(), "test valid decoded body"),
+                                     {"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.ADMIN,
+                                      "ExpirationTimestamp": 1893456000}, does_not_raise(), "test valid decoded body"),
                          ]
                          )
 def test_base64_decode(input_str, expect_output, expectation, description):
@@ -43,7 +43,7 @@ def test_base64_decode(input_str, expect_output, expectation, description):
 @pytest.mark.parametrize("input_str, expect_output, description",
                          [
                              ("eyJBbGciOjIsIlRva2VuVHlwIjoxfQ",
-                              {'Alg': jwt.AlgEnum.HS512, 'TokenTyp': jwt.TokenTypEnum.JWT}, "test get decoded header"),
+                              {"Alg": jwt.AlgEnum.HS512, "TokenTyp": jwt.TokenTypEnum.JWT}, "test get decoded header"),
                          ]
                          )
 def test_get_decoded_header(input_str, expect_output, description):
@@ -55,8 +55,8 @@ def test_get_decoded_header(input_str, expect_output, description):
                          [
                              (
                                      "eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
-                                     {'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN,
-                                      'ExpirationTimestamp': 1893456000}, "test get decoded body"),
+                                     {"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.ADMIN,
+                                      "ExpirationTimestamp": 1893456000}, "test get decoded body"),
                          ]
                          )
 def test_get_decoded_body(input_str, expect_output, description):
@@ -67,25 +67,25 @@ def test_get_decoded_body(input_str, expect_output, description):
 @pytest.mark.parametrize("input_header_dict, expectation, description",
                          [
                              ("", pytest.raises(ValueError), "test invalid input with empty header_dict"),
-                             ({'Alg': jwt.AlgEnum.MIN, 'TokenTyp': jwt.TokenTypEnum.JWT}, pytest.raises(ValueError),
+                             ({"Alg": jwt.AlgEnum.MIN, "TokenTyp": jwt.TokenTypEnum.JWT}, pytest.raises(ValueError),
                               "test invalid Alg"),
-                             ({'Alg': jwt.AlgEnum.MAX, 'TokenTyp': jwt.TokenTypEnum.JWT}, pytest.raises(ValueError),
+                             ({"Alg": jwt.AlgEnum.MAX, "TokenTyp": jwt.TokenTypEnum.JWT}, pytest.raises(ValueError),
                               "test invalid Alg"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.MIN}, pytest.raises(ValueError),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.MIN}, pytest.raises(ValueError),
                               "test invalid TokenTyp"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.MAX}, pytest.raises(ValueError),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.MAX}, pytest.raises(ValueError),
                               "test invalid TokenTyp"),
-                             ({'Alg': jwt.AlgEnum.NO_ALG, 'TokenTyp': jwt.TokenTypEnum.JWT}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.NO_ALG, "TokenTyp": jwt.TokenTypEnum.JWT}, does_not_raise(),
                               "test valid Alg"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.JWT}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.JWT}, does_not_raise(),
                               "test valid Alg"),
-                             ({'Alg': jwt.AlgEnum.HS512, 'TokenTyp': jwt.TokenTypEnum.JWT}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.HS512, "TokenTyp": jwt.TokenTypEnum.JWT}, does_not_raise(),
                               "test valid Alg"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.NO_TYPE}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.NO_TYPE}, does_not_raise(),
                               "test valid TokenTyp"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.JWT}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.JWT}, does_not_raise(),
                               "test valid TokenTyp"),
-                             ({'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.JET}, does_not_raise(),
+                             ({"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.JET}, does_not_raise(),
                               "test valid TokenTyp"),
                          ]
                          )
@@ -97,34 +97,34 @@ def test_validate_header(input_header_dict, expectation, description):
 @pytest.mark.parametrize("input_body_dict, expectation, description",
                          [
                              ("", pytest.raises(ValueError), "test invalid input: empty body_dict"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9d', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': 1893456000}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9d", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": 1893456000}, pytest.raises(ValueError),
                               "test invalid UUID with shorter length"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dxxx', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': 1893456000}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dxxx", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": 1893456000}, pytest.raises(ValueError),
                               "test invalid UUID with longer length"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9d!', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': 1893456000}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9d!", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": 1893456000}, pytest.raises(ValueError),
                               "test invalid UUID with special case"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.MIN,
-                               'ExpirationTimestamp': 1893456000}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.MIN,
+                               "ExpirationTimestamp": 1893456000}, pytest.raises(ValueError),
                               "test invalid Permission"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.MAX,
-                               'ExpirationTimestamp': 1893456000}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.MAX,
+                               "ExpirationTimestamp": 1893456000}, pytest.raises(ValueError),
                               "test invalid Permission"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': 0}, pytest.raises(ValueError), "test invalid Timestamp"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': time.time()}, pytest.raises(ValueError),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": 0}, pytest.raises(ValueError), "test invalid Timestamp"),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": time.time()}, pytest.raises(ValueError),
                               "test invalid Timestamp"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.NO_PERMISSION,
-                               'ExpirationTimestamp': 1893456000}, does_not_raise(), "test valid body_dict"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.USER_REGISTRATION,
-                               'ExpirationTimestamp': 1893456000}, does_not_raise(), "test valid body_dict"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.USER,
-                               'ExpirationTimestamp': 1893456000}, does_not_raise(), "test valid body_dict"),
-                             ({'UUID': '01d3x3wm2nnrdfzp0tka2vw9dx', 'Permission': jwt.PermissionEnum.ADMIN,
-                               'ExpirationTimestamp': 1893456000}, does_not_raise(), "test valid body_dict"),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.NO_PERMISSION,
+                               "ExpirationTimestamp": 1893456000}, does_not_raise(), "test valid body_dict"),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.USER_REGISTRATION,
+                               "ExpirationTimestamp": 1893456000}, does_not_raise(), "test valid body_dict"),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.USER,
+                               "ExpirationTimestamp": 1893456000}, does_not_raise(), "test valid body_dict"),
+                             ({"UUID": "01d3x3wm2nnrdfzp0tka2vw9dx", "Permission": jwt.PermissionEnum.ADMIN,
+                               "ExpirationTimestamp": 1893456000}, does_not_raise(), "test valid body_dict"),
                          ]
                          )
 def test_validate_body(input_body_dict, expectation, description):
@@ -231,35 +231,35 @@ def test_validate_permission_requirement(req_permission, token_permission, expec
                              (
                                      "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
                                      "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
-                                     {'Alg': jwt.AlgEnum.MIN, 'TokenTyp': jwt.TokenTypEnum.JWT},
+                                     {"Alg": jwt.AlgEnum.MIN, "TokenTyp": jwt.TokenTypEnum.JWT},
                                      "8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg==",
                                      pytest.raises(ValueError), "test invalid header_dict"
                              ),
                              (
                                      "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
                                      "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
-                                     {'Alg': jwt.AlgEnum.NO_ALG, 'TokenTyp': jwt.TokenTypEnum.JWT},
+                                     {"Alg": jwt.AlgEnum.NO_ALG, "TokenTyp": jwt.TokenTypEnum.JWT},
                                      "8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg==",
                                      pytest.raises(ValueError), "test invalid header_dict"
                              ),
                              (
                                      "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
                                      "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
-                                     {'Alg': jwt.AlgEnum.HS256, 'TokenTyp': jwt.TokenTypEnum.JWT},
+                                     {"Alg": jwt.AlgEnum.HS256, "TokenTyp": jwt.TokenTypEnum.JWT},
                                      "8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg==",
                                      pytest.raises(ValueError), "test invalid header_dict"
                              ),
                              (
                                      "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
                                      "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
-                                     {'Alg': jwt.AlgEnum.HS512, 'TokenTyp': jwt.TokenTypEnum.JWT},
+                                     {"Alg": jwt.AlgEnum.HS512, "TokenTyp": jwt.TokenTypEnum.JWT},
                                      "8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg",
                                      pytest.raises(ValueError), "test invalid signature_token"
                              ),
                              (
                                      "eyJBbGciOjIsIlRva2VuVHlwIjoxfQ.eyJVVUlEIjoiMDFkM3gzd20ybm5yZGZ6cDB0a2Eydnc5ZHgiLCJQZXJtaXNzaW9uIjozLCJFeHBpcmF0aW9uVGltZXN0YW1wIjoxODkzNDU2MDAwfQ",
                                      "j2Yzh-VcIm-lYUzBuqt8TVPeUHNYB5MP1gWvz3Bolow=",
-                                     {'Alg': jwt.AlgEnum.HS512, 'TokenTyp': jwt.TokenTypEnum.JWT},
+                                     {"Alg": jwt.AlgEnum.HS512, "TokenTyp": jwt.TokenTypEnum.JWT},
                                      "8lVhZo_W6KmGI2oi5JNHioDvPq2Yl86v4uae3RfKc-qoKUwHNxFtXO2NFmChsi35__t1uC_SD-Ay_MoateeDNg==",
                                      does_not_raise(), "valid testing"
                              ),

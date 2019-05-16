@@ -22,7 +22,7 @@ def get_file_type(file_name):
     audio_exts_dict = {"wav": True, "wma": True, "ogg": True, "m4a": True, "mp3": True}
     video_exts_dict = {"flv": True, "wmv": True, "mov": True, "avi": True, "mp4": True}
 
-    file_list = file_name.split('.')
+    file_list = file_name.split(".")
     extension = file_list[-1]
     file_type = "files"
 
@@ -38,7 +38,7 @@ def get_file_type(file_name):
 
 def verify_uuid(id):
     """Verify uuid and checks it matches correct format."""
-    uuid_regex = re.compile(r'^[a-z0-9]{26}$')
+    uuid_regex = re.compile(r"^[a-z0-9]{26}$")
     if uuid_regex.match(id):
         return True
     else:

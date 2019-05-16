@@ -71,7 +71,7 @@ class FileTransactionService(hwsc_file_transaction_svc_pb2_grpc.FileTransactionS
             else:
                 return hwsc_file_transaction_svc_pb2.FileTransactionResponse(
                     code=grpc.StatusCode.UNKNOWN.value[0],
-                    message='fail uploadfile',
+                    message="fail uploadfile",
                 )
 
         else:
