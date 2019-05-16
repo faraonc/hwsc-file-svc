@@ -53,7 +53,9 @@ def test_get_file_type(input, expected_output):
                              # testing with longer length uuid
                              ("1234abcd5454efef8842llaaaab", False),
                              # testing with special case in uuid
-                             ("1234abcd5454efef8842ll3!ss", False)
+                             ("1234abcd5454efef8842ll3!ss", False),
+                             # testing with uppercase characters in uuid
+                             ("1234ABCD5454efef8842ll3!ss", False)
                          ]
                          )
 def test_verify_uuid(input, expected_output):

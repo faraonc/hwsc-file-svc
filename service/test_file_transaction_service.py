@@ -51,7 +51,7 @@ def test_GetStatus(state_input, azure_input, expected_output, desc):
     assert response.message == expected_output["message"]
 
 
-valid_uuid_1 = ''.join(random.choices(string.ascii_lowercase + string.digits, k=26))
+valid_uuid_1 = "".join(random.choices(string.ascii_lowercase + string.digits, k=26))
 
 
 @pytest.mark.parametrize("uuid_input, expected_output, desc",

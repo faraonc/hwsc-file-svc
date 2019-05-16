@@ -38,7 +38,7 @@ def get_file_type(file_name):
 
 def verify_uuid(id):
     """Verify uuid and checks it matches correct format."""
-    uuid_regex = re.compile(r'^[a-zA-Z0-9]{26}$')
+    uuid_regex = re.compile(r'^[a-z0-9]{26}$')
     if uuid_regex.match(id):
         return True
     else:
