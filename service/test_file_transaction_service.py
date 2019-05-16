@@ -1,7 +1,8 @@
 import grpc
 import pytest
 from service import server
-from utility import utility
+import string
+import random
 from azure_client import azure_client
 import config
 from azure.storage.blob import BlockBlobService
@@ -50,9 +51,17 @@ def test_GetStatus(state_input, azure_input, expected_output, desc):
     assert response.message == expected_output["message"]
 
 
+valid_uuid_1 = ''.join(random.choices(string.ascii_lowercase + string.digits, k=26))
+
+
 @pytest.mark.parametrize("uuid_input, expected_output, desc",
                          [
-                             ("1234abcd5454efef8842ll3fsc",
+                             (valid_uuid_1,
+                              {"code": grpc.StatusCode.OK.value[0],
+                               "message": "user folder creation successful"},
+                              "test for successful user folder creation"),
+
+                             (valid_uuid_1,
                               {"code": grpc.StatusCode.UNKNOWN.value[0],
                                "message": "user folder already exists"},
                               "test for preexisting folder"),
@@ -61,11 +70,6 @@ def test_GetStatus(state_input, azure_input, expected_output, desc):
                               {"code": grpc.StatusCode.UNKNOWN.value[0],
                                "message": "invalid uuid"},
                               "test for invalid uuid"),
-
-                             ("1234abcd5454efef8842ll3fse",
-                              {"code": grpc.StatusCode.OK.value[0],
-                               "message": "user folder creation successful"},
-                              "test for successful user folder creation"),
                          ]
                          )
 def test_CreateUserFolder(uuid_input, expected_output, desc):
