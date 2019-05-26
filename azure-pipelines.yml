@@ -39,7 +39,7 @@ steps:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
 
- - script: |
+  - script: |
     docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-svc:int .
     displayName: 'Build Docker Image Internal Release'
 
