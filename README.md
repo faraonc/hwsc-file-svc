@@ -65,3 +65,6 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 # Where is test report generated
 - After the command `$ pipenv run pytest --cov=. --cov-report=html`, it will create htmlcov directory
 - The test report html files are located in the directory
+
+# How to do lint test
+- Type `$ python3.7 -m flake8 .`

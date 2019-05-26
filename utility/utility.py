@@ -18,9 +18,18 @@ def download_chunk(file):
 
 def get_file_type(file_name):
     """Check and return correct type of the file passed in."""
-    image_exts_dict = {"jpg": True, "jpeg": True, "png": True, "bmp": True, "tif": True, "gif": True, "tiff": True}
-    audio_exts_dict = {"wav": True, "wma": True, "ogg": True, "m4a": True, "mp3": True}
-    video_exts_dict = {"flv": True, "wmv": True, "mov": True, "avi": True, "mp4": True}
+    image_exts_dict = {
+        "jpg": True, "jpeg": True, "png": True, "bmp": True,
+        "tif": True, "gif": True, "tiff": True
+    }
+    audio_exts_dict = {
+        "wav": True, "wma": True, "ogg": True,
+        "m4a": True, "mp3": True
+    }
+    video_exts_dict = {
+        "flv": True, "wmv": True,
+        "mov": True, "avi": True, "mp4": True
+    }
 
     file_list = file_name.split(".")
     extension = file_list[-1]

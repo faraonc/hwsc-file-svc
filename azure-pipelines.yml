@@ -29,6 +29,10 @@ steps:
 
 - script: |
    python3.7 -m pip install flake8
-    flake8 .
   displayName: 'Run lint tests'
 
+- script: |
+    pipenv install pytest
+    pipenv install pytest-cov
+    pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+  displayName: 'Test with pytest'
