@@ -32,16 +32,16 @@ def test_get_file_type(input, expected_output):
     assert actual_output == expected_output
 
 
-@pytest.mark.parametrize("input1, input2, expected_output",
-                         [
-                             (0, "1234abcd5454efef8842ll3fsc", True),
-                             (4, "1234abcd5454efef8842ll3fsc", False),
-                             (-4, "1234abcd5454efef8842ll3fsc", False)
-                         ]
-                         )
-def test_create_uuid_container_in_azure(input1, input2, expected_output):
-    actual_output = utility.create_uuid_container_in_azure(input1, input2)
-    assert actual_output == expected_output
+# @pytest.mark.parametrize("input1, input2, expected_output",
+#                          [
+#                              (0, "1234abcd5454efef8842ll3fsc", True),
+#                              (4, "1234abcd5454efef8842ll3fsc", False),
+#                              (-4, "1234abcd5454efef8842ll3fsc", False)
+#                          ]
+#                          )
+# def test_create_uuid_container_in_azure(input1, input2, expected_output):
+#     actual_output = utility.create_uuid_container_in_azure(input1, input2)
+#     assert actual_output == expected_output
 
 
 @pytest.mark.parametrize("input, expected_output",
@@ -53,7 +53,9 @@ def test_create_uuid_container_in_azure(input1, input2, expected_output):
                              # testing with longer length uuid
                              ("1234abcd5454efef8842llaaaab", False),
                              # testing with special case in uuid
-                             ("1234abcd5454efef8842ll3!ss", False)
+                             ("1234abcd5454efef8842ll3!ss", False),
+                             # testing with uppercase characters in uuid
+                             ("1234ABCD5454efef8842ll3!ss", False)
                          ]
                          )
 def test_verify_uuid(input, expected_output):

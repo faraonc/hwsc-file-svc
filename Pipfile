@@ -9,6 +9,8 @@ googleapis-common-protos = "*"
 azure = "*"
 azure-storage = "*"
 pipenv = "*"
+urllib3 = "*"
+readerwriterlock = "*"
 
 [dev-packages]
 pytest = "*"
