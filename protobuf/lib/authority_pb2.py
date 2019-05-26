@@ -113,15 +113,15 @@ DESCRIPTOR.message_types_by_name['Identification'] = _IDENTIFICATION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Secret = _reflection.GeneratedProtocolMessageType('Secret', (_message.Message,), dict(
-  DESCRIPTOR = _SECRET,
-  __module__ = 'protobuf.lib.authority_pb2'
+  DESCRIPTOR=_SECRET,
+  __module__='protobuf.lib.authority_pb2'
   # @@protoc_insertion_point(class_scope:lib.Secret)
   ))
 _sym_db.RegisterMessage(Secret)
 
 Identification = _reflection.GeneratedProtocolMessageType('Identification', (_message.Message,), dict(
-  DESCRIPTOR = _IDENTIFICATION,
-  __module__ = 'protobuf.lib.authority_pb2'
+  DESCRIPTOR=_IDENTIFICATION,
+  __module__='protobuf.lib.authority_pb2'
   # @@protoc_insertion_point(class_scope:lib.Identification)
   ))
 _sym_db.RegisterMessage(Identification)

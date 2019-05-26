@@ -28,7 +28,8 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-   python3.7 -m pip install flake8
+    python3.7 -m pip install flake8
+    flake8 --ignore E501, E303, E402, E231, E225 protobuf/lib/
   displayName: 'Run lint tests'
 
 - script: |
