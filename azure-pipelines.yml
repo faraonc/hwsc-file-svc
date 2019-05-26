@@ -28,5 +28,10 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
+    python3.7 -m pip3.7 install flake8
+    flake8 .
+  displayName: 'Run lint tests'
+
+- script: |
     pipenv run pytest -v
   displayName: 'pytest'
