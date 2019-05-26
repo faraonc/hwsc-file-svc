@@ -30,3 +30,9 @@ steps:
 - script: |
     pipenv run pytest --cov=. --cov-report=html
   displayName: 'Test with pytest'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    testRunTitle: 'Publish test results for Python $(python.version)'
