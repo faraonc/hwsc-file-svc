@@ -1,0 +1,7 @@
+*.md
+.github
+.dockerignore
+.gitignore
+.editorconfig
+.coverage
+azure-pipelines.yml
