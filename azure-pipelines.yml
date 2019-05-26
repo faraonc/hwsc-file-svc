@@ -40,9 +40,9 @@ steps:
       testRunTitle: 'Publish test results for Python $(python.version)'
 
   - script: |
-      docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-svc:int .
+      docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-transaction-svc:int .
     displayName: 'Build Docker Image Internal Release'
 
   - script: |
-      docker push hwsc/hwsc-file-svc:int
+      docker push hwsc/hwsc-file-transaction-svc:int
     displayName: 'Push Docker Image Internal Release'
