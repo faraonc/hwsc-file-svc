@@ -15,32 +15,26 @@ strategy:
       python.version: '3.7'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
 
-- script: |
-    wget https://bootstrap.pypa.io/get-pip.py
-    python3.7 get-pip.py
-    pip3.7 install pipenv
-    pipenv install --dev -v
-  displayName: 'Install dependencies'
+  - script: |
+      wget https://bootstrap.pypa.io/get-pip.py
+      python3.7 get-pip.py
+      pip3.7 install pipenv
+      pipenv install --dev -v
+    displayName: 'Install dependencies'
 
-- script: |
-    pipenv run pytest --doctest-modules --junitxml=junit/test-results.xml --cov-report=xml
-    pipenv run pytest --cov=. --cov-report=html
-  displayName: 'Test with pytest'
+  - script: |
+      pipenv run pytest --doctest-modules --junitxml=junit/report.xml --cov-report=xml
+      pipenv run pytest --cov=. --cov-report=html
+    displayName: 'Test with pytest'
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testRunner: JUnit
-    testResultsFiles: '**/test-*.xml'
-    testRunTitle: 'Publish test results for Python $(python.version)'
-
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/test-results.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
+      testRunTitle: 'Publish test results for Python $(python.version)'
