@@ -30,7 +30,7 @@ steps:
   - script: |
       pipenv run pytest --doctest-modules --junitxml=junit/report.xml --cov-report=xml
       pipenv run pytest --cov=. --cov-report=html
-    displayName: 'Test with pytest'
+    displayName: 'Run Unit Test'
 
   - task: PublishTestResults@2
     condition: succeededOrFailed()
@@ -38,3 +38,11 @@ steps:
       testRunner: JUnit
       testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
+
+ - script: |
+    docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-svc:int .
+    displayName: 'Build Docker Image Internal Release'
+
+  - script: |
+    docker push hwsc/hwsc-file-svc:int
+    displayName: 'Push Docker Image Internal Release'
