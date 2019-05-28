@@ -33,22 +33,21 @@ steps:
       export hosts_file_port="50053"
       export hosts_file_network="tcp"
       export hosts_blob_storage=$(testBlobStorage)
-      pipenv run pytest --doctest-modules --junitxml=junit/report.xml --cov-report=xml
-      pipenv run pytest --cov=. --cov-report=html
+      pipenv run pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
     displayName: 'Run Unit Test'
 
   - task: PublishTestResults@2
     condition: succeededOrFailed()
     inputs:
       testRunner: JUnit
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-*.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
 
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/report.xml
-      reportDirectory: $(System.DefaultWorkingDirectory)/**/htmlcov
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
       failIfCoverageEmpty: 'true'
       failOnStandardError: 'true'
 
