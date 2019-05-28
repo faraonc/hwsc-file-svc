@@ -1,0 +1,70 @@
+trigger: none
+
+pr:
+  - master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+variables:
+  - group: hwsc-dev-container-vars
+  - group: hwsc-file-transaction-svc-env-vars
+
+strategy:
+  matrix:
+    Python37:
+      python.version: '3.7'
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      wget https://bootstrap.pypa.io/get-pip.py
+      python3.7 get-pip.py
+      pip3.7 install pipenv
+      pipenv install --dev -v
+    displayName: 'Install Dependencies'
+
+  - script: |
+      export hosts_file_address=""
+      export hosts_file_port="50053"
+      export hosts_file_network="tcp"
+      export hosts_blob_storage=$(testBlobStorage)
+      mkdir azurite
+      docker pull arafato/azurite
+      docker run -t -d -p 10000:10000 -p 10001:10001 -p 10002:10002 -v azurite:/opt/azurite/folder arafato/azurite
+      pipenv run pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
+    displayName: 'Run Unit Test'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-*.xml'
+      testRunTitle: 'Publish test results for Python $(python.version)'
+      failTaskOnFailedTests: 'true'
+      failOnStandardError: 'true'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+      failIfCoverageEmpty: 'true'
+      failOnStandardError: 'true'
+
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: hwscdevcontainer_pw.txt
+  - script: |
+      cat $(Agent.TempDirectory)/hwscdevcontainer_pw.txt | docker login -u "$(hwscDevContainerUser)" --password-stdin
+      secureFile: hwscdevcontainer_pw.txt
+      docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-transaction-svc:test-int .
+    displayName: 'Build Docker Image Internal Release'
+
+  - script: |
+      docker push hwsc/hwsc-file-transaction-svc:test-int
+    displayName: 'Push Docker Image Internal Release'
