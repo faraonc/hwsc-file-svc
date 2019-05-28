@@ -5,3 +5,8 @@
 .editorconfig
 .coverage
 azure-pipelines.yml
+azurite/
+htmlcov/
+junit/
+coverage.xml
+.pytest_cache/
