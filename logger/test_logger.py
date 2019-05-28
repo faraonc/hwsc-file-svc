@@ -13,6 +13,8 @@ from logger import logger
                          ]
                          )
 def test_request_service(capsys, input, expected_output):
+    logger.log_stream.truncate(0)
+    logger.log_stream.seek(0)
     logger.request_service(input)
     sys.stderr.write(logger.log_stream.getvalue())
     captured = capsys.readouterr()

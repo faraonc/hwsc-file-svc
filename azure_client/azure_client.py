@@ -40,16 +40,17 @@ def create_uuid_container_in_azure(uuid):
     """Create uuid folder in the azure blob storage."""
     # TODO
     # ADD try-catch block
-    images_container = uuid + "-images"
-    audios_container = uuid + "-audios"
-    files_container = uuid + "-files"
-    videos_container = uuid + "-videos"
+    if utility.verify_uuid(uuid):
+        images_container = uuid + "-images"
+        audios_container = uuid + "-audios"
+        files_container = uuid + "-files"
+        videos_container = uuid + "-videos"
 
-    block_blob_service.create_container(images_container)
-    block_blob_service.create_container(audios_container)
-    block_blob_service.create_container(files_container)
-    block_blob_service.create_container(videos_container)
-    logger.debug("user folder creation successful")
+        block_blob_service.create_container(images_container)
+        block_blob_service.create_container(audios_container)
+        block_blob_service.create_container(files_container)
+        block_blob_service.create_container(videos_container)
+        logger.debug("user folder creation successful")
 
 
 def find_folder_in_azure(uuid, f_name):
