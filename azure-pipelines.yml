@@ -44,6 +44,13 @@ steps:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
 
+   - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      reportDirectory: $(System.DefaultWorkingDirectory)/**/htmlcov
+      failIfCoverageEmpty: 'true'
+      failOnStandardError: 'true'
+
   - task: DownloadSecureFile@1
     inputs:
       secureFile: hwscdevcontainer_pw.txt
