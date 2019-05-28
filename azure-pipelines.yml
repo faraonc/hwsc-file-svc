@@ -28,6 +28,10 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
+      export hosts_file_address=""
+      export hosts_file_port="50053"
+      export hosts_file_network="tcp"
+      export hosts_blob_storage=$(testBlobStorage)
       pipenv run pytest --doctest-modules --junitxml=junit/report.xml --cov-report=xml
       pipenv run pytest --cov=. --cov-report=html
     displayName: 'Run Unit Test'
