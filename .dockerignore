@@ -5,6 +5,8 @@
 .editorconfig
 .coverage
 azure-pipelines.yml
+azure-pipelines-ext.yml
+azure-pipelines-pr-test.yml
 azurite/
 htmlcov/
 junit/
