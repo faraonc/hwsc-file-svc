@@ -26,7 +26,7 @@ steps:
       python3.7 get-pip.py
       pip3.7 install pipenv
       pipenv install --dev -v
-    displayName: 'Install dependencies'
+    displayName: 'Install Dependencies'
 
   - script: |
       export hosts_file_address=""
@@ -42,6 +42,8 @@ steps:
       testRunner: JUnit
       testResultsFiles: '$(System.DefaultWorkingDirectory)/**/test-*.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
+      failTaskOnFailedTests: 'true'
+      failOnStandardError: 'true'
 
   - task: PublishCodeCoverageResults@1
     inputs:
