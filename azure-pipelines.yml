@@ -44,7 +44,7 @@ steps:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/**/report.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
 
-   - task: PublishCodeCoverageResults@1
+  - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: Cobertura
       reportDirectory: $(System.DefaultWorkingDirectory)/**/htmlcov
