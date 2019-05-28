@@ -35,7 +35,7 @@ steps:
       export hosts_blob_storage=$(testBlobStorage)
       mkdir azurite
       docker pull arafato/azurite
-      docker run -t -d -p 10000:10000 -p 10001:10001 -p 10002:10002 -v azurite:/opt/azurite/folder arafato/azurite .
+      docker run -t -d -p 10000:10000 -p 10001:10001 -p 10002:10002 -v azurite:/opt/azurite/folder arafato/azurite
       pipenv run pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
     displayName: 'Run Unit Test'
 
