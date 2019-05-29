@@ -1,7 +1,7 @@
-trigger:
-  - master
+trigger: none
 
-pr: none
+pr:
+  - master
 
 pool:
   vmImage: 'Ubuntu-16.04'
@@ -62,9 +62,9 @@ steps:
   - script: |
       cat $(Agent.TempDirectory)/hwscdevcontainer_pw.txt | docker login -u "$(hwscDevContainerUser)" --password-stdin
       secureFile: hwscdevcontainer_pw.txt
-      docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-transaction-svc:int .
+      docker build --no-cache -f Dockerfile -t hwsc/hwsc-file-transaction-svc:test-int .
     displayName: 'Build Docker Image Internal Release'
 
   - script: |
-      docker push hwsc/hwsc-file-transaction-svc:int
+      docker push hwsc/hwsc-file-transaction-svc:test-int
     displayName: 'Push Docker Image Internal Release'
